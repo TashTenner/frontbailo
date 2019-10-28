@@ -1,68 +1,226 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# README 3. module: Bailo.app
 
-## Available Scripts
+## Description
 
-In the project directory, you can run:
+​
+Find and add tango schools and venues around the world.
+​
 
-### `npm start`
+## User Stories
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+​
+**404** - As a user I want to see a nice 404 page when I go to a page that doesn’t exist so that I know it was my fault.
+​
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+**500** - As a user I want to see a nice error page when the super team screws it up so that I know that is not my fault.
 
-### `npm test`
+​
+**Homepage** - As a user I want to be able to access the homepage so that I see what the app is about and login and signup.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+​
+**Sign up** - As a user I want to sign up on the webpage so that I can see all the events that I could attend.
 
-### `npm run build`
+​
+**Login** - As a user I want to be able to log in on the webpage so that I can get back to my account.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+​
+**Logout** - As a user I want to be able to log out from the webpage so that I can make sure no one will access my account.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+**Profile** - As a user I want to be able to see my profile and edit it.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+​
+**Venue list** - As a user I want to see all the tango venues available on a map so that I can choose which ones I want to attend.
 
-### `npm run eject`
+​
+**Venues create** - As a registered user I want to create a tango venue so that I can invite others to attend.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Venues delete** - As an admin I want to delete a tango venue so that I can keep the venue list up-to-date.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+​
+**Venues detail** - As a user I want to see the tango venue details of one event so that I can decide if I want to attend.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**Venues accept** - As an admin I want to accept a tango venue so that I can keep the venue list up-to-date.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**Venues decline** - As an admin I want to decline a tango venue so that I can keep the venue list up-to-date.
 
-## Learn More
+**School list** - As a user I want to see all the tango schools available on a map so that I can choose which ones I want to attend.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+​
+**Schools create** - As a registered user I want to create a tango school so that I can invite others to attend.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**Schools delete** - As an admin I want to delete a tango school so that I can keep the school list up-to-date.
 
-### Code Splitting
+​
+**Schools detail** - As a user I want to see the tango school details of one school so that I can decide if I want to attend.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+**Schools accept** - As an admin I want to accept a tango school so that I can keep the school list up-to-date.
 
-### Analyzing the Bundle Size
+**Schools decline** - As an admin I want to decline a tango school so that I can keep the school list up-to-date.
+​
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Backlog
 
-### Making a Progressive Web App
+**Native app feel** - As a user I want to have a nice smartphone feeling even though it is not a native app.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+**Geo-Location**
 
-### Advanced Configuration
+**Add Events model**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+**Add Swing, Salsa, Forro**
 
-### Deployment
+​
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## Routes
 
-### `npm run build` fails to minify
+**Backend & Frontend**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+| Name              | Method | Endpoint                    | Description                                     | URL                            | Public |
+| ----------------- | ------ | --------------------------- | ----------------------------------------------- | ------------------------------ | ------ |
+| Register          | POST   | api/auth/register           | Register, user/admin                            | /register                      | yes    |
+| Login             | POST   | api/auth/login              | Login, user/admin                               | /login                         | yes    |
+| Logout            | POST   | api/auth/logout             | Logout, user/admin                              | /logout                        | yes    |
+| Me                | GET    | api/auth/me                 | Check session/ if logged in                     |                                |        |
+| users             |        |                             |                                                 |                                |        |
+| Map               | GET    | api/venues                  | READ: See map with nav-bar, search, milongas    | /                              | yes    |
+| Venue Info Short  | GET    | api/venues/:venueId         | READ: See details of milonga in sidebar         | /:id                           | yes    |
+| Venue Info Long   | GET    | api/venues/:venueId         | READ: See details of milonga new page           | /milonga/:id                   | no     |
+| Add Venue         | POST   | api/newVenues               | CREATE: add new milonga, registered user        | /add/milonga                   | no     |
+| Add General       | --     | ---                         | ---                                             | /add                           | yes    |
+| Map               | GET    | api/schools                 | READ: See map with nav-bar, search, schools     | /                              | yes    |
+| School Info Short | GET    | api/schools/:schoolId       | READ: See details of school in sidebar          | /:id                           | yes    |
+| School Info Long  | GET    | api/schools/:schoolId       | READ: See details of school new page            | /school/:id                    | no     |
+| Add School        | POST   | api/newSchools              | CREATE: add new school, registered user         | /add/school                    | no     |
+| Profile           | GET    | api/user/:id                | See profile page of user                        | /profile                       | no     |
+| Profile edited    | PUT    | api/user/:id                | Edit profile                                    | /profile                       | no     |
+| admin only        |        |                             |                                                 |                                |        |
+| New Venues        | GET    | api/newVenues               | READ: See milonga to accept/decline             | /admin/newVenues               | no     |
+| New Venue Info    | GET    | api/newVenues/:newVenueId   | READ: See new milonga details                   | /admin/newVenues/:newVenueId   | no     |
+| Accept Venue      | POST   | api/venues                  | CREATE: Add milonga to map                      | /admin/venues                  | no     |
+| Decline Venue     | POST   | api/delVenues               | CREATE: Add milonga to deleted milongas         |                                |        |
+| Edit Venue        | PUT    | api/venues/:venueId         | UPDATE: Edit details of milonga                 | /admin/venues/edit             | no     |
+| Edit New Venue    | PUT    | api/newVenues/:newVenueId   | UPDATE: Edit details of new milonga             | /admin/newVenues/edit          | no     |
+| Delete Venue      | DELETE | api/venues/:venueId         | DELETE: Delete milonga                          | /admin/venues                  | no     |
+| Delete New Venue  | DELETE | api/newVenues/:newVenueId   | DELETE: Delete new milonga after accept/decline | /admin/newVenues               | no     |
+| New Schools       | GET    | api/newSchools              | READ: See schools to accept/decline             | /admin/newSchools              | no     |
+| New School Info   | GET    | api/newSchools/:newSchoolId | READ: See new school details                    | /admin/newSchools/:newSchoolId | no     |
+| Accept School     | POST   | api/schools                 | CREATE: Add school to map                       | /admin/schools                 | no     |
+| Decline School    | POST   | api/delSchools              | CREATE: Add school to deleted schools           |
+| Edit School       | PUT    | api/schools/:schoolId       | UPDATE: Edit details of school                  | /admin/schools/edit            | no     |
+| Edit New School   | PUT    | api/newSchools/:newSchoolId | UPDATE: Edit details of new school              | /admin/newSchools/edit         | no     |
+| Delete School     | DELETE | api/schools/:schoolId       | DELETE: Delete school                           | /admin/schools                 | no     |
+| Delete New School | DELETE | api/newSchools/:newSchoolId | DELETE: Delete new school after accept/decline  | /admin/newSchools              | no     |
+
+## Models
+
+​
+Venue model
+
+```js
+  {
+    name: { type: String, required: true },
+    address: {
+      street: String,
+      number: Number,
+      additionalInfo: String,
+      postcode: String,
+      city: String,
+      country: String,
+    },
+    coordinates: {
+      lat: Number,
+      lng: Number,
+    },
+    dayOfWeek: { type: String, enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] },
+    type: { type: String, enum: ['milonga', 'practica', 'school'] },
+    date: {
+      dStart: String,
+      dFinish: String,
+    },
+    time: {
+      tStart: String,
+      tFinish: String,
+    },
+    price: {
+      number: Number,
+      currency: String,
+    },
+    contact: {
+      phoneNr: String,
+      mail: String,
+      website: String,
+      nameOrganizer: String,
+    },
+    frequency: String,
+    mainPhoto: String,
+    morePhotos: [String],
+    rating: { type: Number, min: 1, max: 5 },
+    followers: [String],
+  },
+```
+
+School model
+
+```js
+  {
+    name: { type: String, required: true },
+    address: {
+      street: String,
+      number: Number,
+      additionalInfo: String,
+      postcode: String,
+      city: String,
+      country: String,
+    },
+    coordinates: {
+      lat: Number,
+      lng: Number,
+    },
+    contact: {
+      phoneNr: String,
+      mail: String,
+      website: String,
+      nameOrganizer: String,
+    },
+    followers: [String],
+  },
+```
+
+User model
+
+```js
+{
+    userEmail: String,
+    hashedPassword: String,
+    type: ["admin", "user"]
+}
+```
+
+​
+
+## Links
+
+​
+
+### Git
+
+​
+The url to your repository and to your deployed project
+
+​
+[Repository Frontend Link](https://github.com/TashTenner/frontbailo)
+
+​
+[Repository Backend Link](https://github.com/TashTenner/backbailo)
+
+​
+[Deploy Link](http://heroku.com/)
+​
+
+### Wireframes
+
+[InVision with Wireframes](https://invis.io/...)
+
+### Slides
+
+​
+[Slides Link](https://slides.com/tashbcn/bailo-app)
