@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import MapBox from "./views/map/MapBox";
+// import MapTwo from "./views/map/MapTwo";
 
 class App extends Component {
   constructor() {
@@ -12,8 +12,11 @@ class App extends Component {
   componentDidMount() {
     axios.get("http://localhost:3001/api/venues").then(response => {
       this.setState({ listOfVenues: response.data });
+      console.log(response.data);
     });
   }
+
+  // then(json => this.state({ goods: json.goods }))
 
   render() {
     console.log("render App");
@@ -27,11 +30,12 @@ class App extends Component {
                 <Link to={`/venues/${venue._id}`}>
                   <h3>{venue.name}</h3>
                 </Link>
+                {/* <p>{venue.coordinates.lng}</p> */}
               </div>
             );
           })}
         </div>
-        {/* <MapBox /> */}
+        {/* <MapTwo /> */}
       </div>
     );
   }
