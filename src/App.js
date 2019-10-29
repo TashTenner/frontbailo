@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+// import MapBox from "./views/map/MapBox";
 
 class App extends Component {
   constructor() {
@@ -18,15 +19,19 @@ class App extends Component {
     console.log("render App");
     return (
       <div>
-        {this.state.listOfVenues.map(venue => {
-          return (
-            <div key={venue._id}>
-              <Link to={`/venues/${venue._id}`}>
-                <h3>{venue.name}</h3>
-              </Link>
-            </div>
-          );
-        })}
+        <div></div>
+        <div>
+          {this.state.listOfVenues.map(venue => {
+            return (
+              <div key={venue._id}>
+                <Link to={`/venues/${venue._id}`}>
+                  <h3>{venue.name}</h3>
+                </Link>
+              </div>
+            );
+          })}
+        </div>
+        {/* <MapBox /> */}
       </div>
     );
   }
