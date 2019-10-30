@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
+import Navbar from "./views/Navbar";
 import MapHome from "./views/map/MapHome";
 // import MyBailo from "./views/map/MyBailo";
 // import AddBailo from "./views/map/AddBailo";
 // import WhatsNext from "./views/map/WhatsNext";
 // import MenuBailo from "./views/map/MenuBailo";
-
-// import Navbar from "./components/Navbar";
 
 import { Switch, Route } from "react-router-dom";
 
@@ -14,7 +13,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {/* <Navbar /> */}
+        <Navbar />
         <Switch>
           <Route exact path="/" component={MapHome} />
           {/* <Route exact path="/mybailo" component={MyBailo} />
