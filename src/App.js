@@ -3,7 +3,7 @@ import "./App.css";
 import Navbar from "./views/Navbar";
 import MapHome from "./views/map/MapHome";
 // import MyBailo from "./views/map/MyBailo";
-// import AddBailo from "./views/map/AddBailo";
+import AddBailo from "./views/addBailo/AddBailo";
 // import WhatsNext from "./views/map/WhatsNext";
 // import MenuBailo from "./views/map/MenuBailo";
 
@@ -16,9 +16,9 @@ class App extends Component {
         <Navbar />
         <Switch>
           <Route exact path="/" component={MapHome} />
-          {/* <Route exact path="/mybailo" component={MyBailo} />
-          <Route exact path="/add" component={AddBailo} />
-          <Route exact path="/whatsnext" component={WhatsNext} />
+          {/* <Route exact path="/mybailo" component={MyBailo} /> */}
+          <Route path="/add" component={AddBailo} />
+          {/* <Route exact path="/whatsnext" component={WhatsNext} />
           <Route exact path="/menu" component={MenuBailo} /> */}
         </Switch>
       </div>

@@ -11,6 +11,10 @@ class VenueService {
   getAllVenues() {
     return this.axios.get("/venues").then(({ data: venues }) => venues);
   }
+
+  createVenue(body) {
+    return this.axios.post("/venues", body).then(({ data: venue }) => venue);
+  }
 }
 
 const venueService = new VenueService();
