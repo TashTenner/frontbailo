@@ -22,7 +22,7 @@ const navStyle = {
   padding: "10px"
 };
 
-class MapThree extends Component {
+class MapHome extends Component {
   state = {
     listOfVenues: [],
     viewport: {
@@ -68,7 +68,7 @@ class MapThree extends Component {
       <MapGL
         {...viewport}
         onViewportChange={viewport => this.setState({ viewport })}
-        mapStyle="mapbox://styles/mapbox/streets-v10"
+        mapStyle="mapbox://styles/mapbox/light-v10"
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
       >
         <div>
@@ -102,4 +102,4 @@ class MapThree extends Component {
   }
 }
 
-export default MapThree;
+export default MapHome;
