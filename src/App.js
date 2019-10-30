@@ -1,31 +1,28 @@
 import React, { Component } from "react";
 import "./App.css";
 import MapHome from "./views/map/MapHome";
-// import About from "./components/About";
+// import MyBailo from "./views/map/MyBailo";
+// import AddBailo from "./views/map/AddBailo";
+// import WhatsNext from "./views/map/WhatsNext";
+// import MenuBailo from "./views/map/MenuBailo";
 
 // import Navbar from "./components/Navbar";
 
-// import Projects from "./components/Projects";
-// import { projects as Projects } from "./components/Projects";
-// import ProjectDetails from "./components/ProjectDetails";
-
-// import { Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <MapHome />
+      <div className="App">
+        {/* <Navbar /> */}
+        <Switch>
+          <Route exact path="/" component={MapHome} />
+          {/* <Route exact path="/mybailo" component={MyBailo} />
+          <Route exact path="/add" component={AddBailo} />
+          <Route exact path="/whatsnext" component={WhatsNext} />
+          <Route exact path="/menu" component={MenuBailo} /> */}
+        </Switch>
       </div>
-      // <div className="App">
-      //   <Navbar />
-      //   <Switch>
-      //     <Route exact path="/" component={Home} />
-      //     <Route path="/about" component={About} />
-      //     <Route exact path="/projects" component={Projects} />
-      //     <Route exact path="/projects/:id" component={ProjectDetails} />
-      //   </Switch>
-      // </div>
     );
   }
 }
