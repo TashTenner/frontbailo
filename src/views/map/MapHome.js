@@ -1,11 +1,11 @@
 import React, { Component } from "react";
+import venueService from "../../services/venueService";
 import MapGL, {
   NavigationControl,
   Marker,
   FullscreenControl
 } from "react-map-gl";
 
-import axios from "axios";
 import MapPin from "./components/MapPin";
 
 const fullscreenControlStyle = {
@@ -34,11 +34,22 @@ class MapHome extends Component {
     }
   };
 
-  componentDidMount() {
-    axios.get("http://localhost:3001/api/venues").then(response => {
-      this.setState({ listOfVenues: response.data });
-      console.log(this.state.listOfVenues);
-    });
+  // componentDidMount() {
+  //   axios.get("http://localhost:3001/api/venues").then(response => {
+  //     this.setState({ listOfVenues: response.data });
+  //     console.log(this.state.listOfVenues);
+  //   });
+  // }
+
+  async componentDidMount() {
+    try {
+      const listOfVenues = await venueService.getAllVenues();
+      this.setState({
+        listOfVenues
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // renderPopup(index) {
