@@ -1,15 +1,33 @@
 import React, { Component } from "react";
-import MapGL, { NavigationControl, Marker } from "react-map-gl";
+import MapGL, {
+  NavigationControl,
+  Marker,
+  FullscreenControl
+} from "react-map-gl";
 
 import axios from "axios";
 import MapPin from "./components/MapPin";
+
+const fullscreenControlStyle = {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  padding: "10px"
+};
+
+const navStyle = {
+  position: "absolute",
+  top: 36,
+  left: 0,
+  padding: "10px"
+};
 
 class MapThree extends Component {
   state = {
     listOfVenues: [],
     viewport: {
-      width: 800,
-      height: 800,
+      width: "100vw",
+      height: "100vh",
       latitude: 41.401456,
       longitude: 2.161712,
       zoom: 8
@@ -54,9 +72,6 @@ class MapThree extends Component {
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
       >
         <div>
-          <NavigationControl
-            onViewportChange={viewport => this.setState({ viewport })}
-          />
           {this.state.listOfVenues.length > 0 &&
             this.state.listOfVenues.map(venue => {
               return (
@@ -73,6 +88,14 @@ class MapThree extends Component {
                 </div>
               );
             })}
+          <div className="fullscreen" style={fullscreenControlStyle}>
+            <FullscreenControl />
+          </div>
+          <div className="nav" style={navStyle}>
+            <NavigationControl
+              onViewportChange={viewport => this.setState({ viewport })}
+            />
+          </div>
         </div>
       </MapGL>
     );
