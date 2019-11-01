@@ -3,10 +3,12 @@ import venueService from "../../services/venueService";
 import MapGL, {
   NavigationControl,
   Marker,
-  FullscreenControl
+  FullscreenControl,
+  Popup
 } from "react-map-gl";
 
 import MapPin from "./components/MapPin";
+import VenueInfo from "./components/VenueInfo";
 
 const fullscreenControlStyle = {
   position: "absolute",
@@ -31,7 +33,8 @@ class MapHome extends Component {
       latitude: 41.401456,
       longitude: 2.161712,
       zoom: 8
-    }
+    },
+    popupInfo: null
   };
 
   // componentDidMount() {
@@ -73,6 +76,27 @@ class MapHome extends Component {
   //   );
   // }
 
+  renderPopup() {
+    const { popupInfo, viewport } = this.state;
+
+    return (
+      popupInfo && (
+        <Popup
+          tipSize={5}
+          anchor="top"
+          // longitude={popupInfo.longitude}
+          // latitude={popupInfo.latitude}
+          longitude={popupInfo.geometry.coordinates[0]}
+          latitude={popupInfo.geometry.coordinates[1]}
+          closeOnClick={false}
+          onClose={() => this.setState({ popupInfo: null })}
+        >
+          <VenueInfo info={popupInfo} />
+        </Popup>
+      )
+    );
+  }
+
   render() {
     const { viewport } = this.state;
     return (
@@ -80,6 +104,7 @@ class MapHome extends Component {
         {...viewport}
         onViewportChange={viewport => this.setState({ viewport })}
         mapStyle="mapbox://styles/mapbox/light-v10"
+        // onViewportChange={this.updateViewport}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
       >
         <div>
@@ -88,17 +113,18 @@ class MapHome extends Component {
               return (
                 <div key={venue._id}>
                   <Marker
-                    longitude={venue.coordinates.lng}
-                    latitude={venue.coordinates.lat}
+                    longitude={venue.geometry.coordinates[0]}
+                    latitude={venue.geometry.coordinates[1]}
                   >
                     <MapPin
                       size={20}
-                      // onClick={() => this.setState({ popupInfo: city })}
+                      onClick={() => this.setState({ popupInfo: venue })}
                     />
                   </Marker>
                 </div>
               );
             })}
+          {this.renderPopup()}
           <div className="fullscreen" style={fullscreenControlStyle}>
             <FullscreenControl />
           </div>
