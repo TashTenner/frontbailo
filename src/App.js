@@ -7,6 +7,7 @@ import AddBailo from "./views/addBailo/AddBailo";
 import AddVenue from "./views/addBailo/components/AddVenue";
 import AddSchool from "./views/addBailo/components/AddSchool";
 import VenueLongDetail from "./views/map/venues/VenueLongDetail";
+import SchoolLongDetail from "./views/map/schools/SchoolLongDetail";
 import EditVenue from "./views/map/venues/EditVenue";
 import WhatsNext from "./views/whatsNext/WhatsNext";
 import MenuBailo from "./views/menuBailo/MenuBailo";
@@ -25,6 +26,8 @@ class App extends Component {
           <Route exact path="/add/venue" component={AddVenue} />
           <Route exact path="/add/school" component={AddSchool} />
           <Route exact path="/venues/:id" component={VenueLongDetail} />
+          <Route exact path="/schools/:id" component={SchoolLongDetail} />
+          {/* http://localhost:3000/schools/5dbf226f4465c600177b2bc1 */}
           <Route exact path="/admin/venues/:id/edit" component={EditVenue} />
           <Route exact path="/whatsnext" component={WhatsNext} />
           <Route exact path="/menu" component={MenuBailo} />
