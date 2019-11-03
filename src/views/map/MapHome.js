@@ -37,13 +37,6 @@ class MapHome extends Component {
     popupInfo: null
   };
 
-  // componentDidMount() {
-  //   axios.get("http://localhost:3001/api/venues").then(response => {
-  //     this.setState({ listOfVenues: response.data });
-  //     console.log(this.state.listOfVenues);
-  //   });
-  // }
-
   async componentDidMount() {
     try {
       const listOfVenues = await venueService.getAllVenues();
@@ -55,27 +48,6 @@ class MapHome extends Component {
     }
   }
 
-  // renderPopup(index) {
-  //   return (
-  //     this.state.popupInfo && (
-  //       <Popup
-  //         tipSize={5}
-  //         anchor="bottom-right"
-  //         longitude={markerList[index].long}
-  //         latitude={markerList[index].lat}
-  //         onMouseLeave={() => this.setState({ popupInfo: null })}
-  //         closeOnClick={true}
-  //       >
-  //         <p>
-  //           <strong>{markerList[index].name}</strong>
-  //           <br />
-  //           Available beds:{markerList[index].info}
-  //         </p>
-  //       </Popup>
-  //     )
-  //   );
-  // }
-
   renderPopup() {
     const { popupInfo } = this.state;
 
@@ -84,8 +56,6 @@ class MapHome extends Component {
         <Popup
           tipSize={5}
           anchor="top"
-          // longitude={popupInfo.longitude}
-          // latitude={popupInfo.latitude}
           longitude={popupInfo.geometry.coordinates[0]}
           latitude={popupInfo.geometry.coordinates[1]}
           closeOnClick={false}
@@ -104,7 +74,6 @@ class MapHome extends Component {
         {...viewport}
         onViewportChange={viewport => this.setState({ viewport })}
         mapStyle="mapbox://styles/mapbox/light-v10"
-        // onViewportChange={this.updateViewport}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
       >
         <div>
