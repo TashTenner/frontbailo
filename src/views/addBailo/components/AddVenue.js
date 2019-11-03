@@ -51,7 +51,7 @@ export default class AddVenue extends Component {
       properties: {
         name: this.state.name,
         address: this.state.address,
-        mapOption: this.state.mapOption,
+        // mapOption: this.state.mapOption,
         date: this.state.date,
         frequency: this.state.frequency,
         startTime: this.state.startTime,
@@ -84,7 +84,7 @@ export default class AddVenue extends Component {
         lat,
         name,
         address,
-        mapOption,
+        // mapOption,
         date,
         frequency,
         startTime,
@@ -153,14 +153,14 @@ export default class AddVenue extends Component {
           value={address}
           onChange={this.handleChange}
         />
-        <br></br>
+        {/* <br></br>
         <label>mapOption:</label>
         <input
           type="text"
           name="mapOption"
           value={mapOption}
           onChange={this.handleChange}
-        />
+        /> */}
         <br></br>
         <label>date:</label>
         <input
