@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 // import { withTheme } from "../../../Context/ThemeContext";
 
@@ -7,6 +7,7 @@ const VenueCard = props => {
   console.log(props);
   const {
     venue: {
+      // _id,
       properties: {
         name,
         address,
@@ -55,7 +56,8 @@ const VenueCard = props => {
       <p>{mainPhoto}</p>
       <label htmlFor="">rating:</label>
       <p>{rating}</p>
-      <Link to={`/add`}>test</Link>
+      {/* <Link to={`/admin/venues/${_id}/edit`}>Edit / delete venue</Link>
+      button only for admin */}
       {/* <button onClick={changeTheme}>change Theme</button> */}
     </div>
   );
