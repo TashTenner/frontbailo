@@ -8,8 +8,7 @@ import AddVenue from "./views/addBailo/components/AddVenue";
 import AddSchool from "./views/addBailo/components/AddSchool";
 import VenueLongDetail from "./views/map/venues/VenueLongDetail";
 import EditVenue from "./views/map/venues/EditVenue";
-
-// import WhatsNext from "./views/map/WhatsNext";
+import WhatsNext from "./views/whatsNext/WhatsNext";
 // import MenuBailo from "./views/map/MenuBailo";
 
 import { Switch, Route } from "react-router-dom";
@@ -27,8 +26,8 @@ class App extends Component {
           <Route exact path="/add/school" component={AddSchool} />
           <Route exact path="/venues/:id" component={VenueLongDetail} />
           <Route exact path="/admin/venues/:id/edit" component={EditVenue} />
-          {/* <Route exact path="/whatsnext" component={WhatsNext} />
-          <Route exact path="/menu" component={MenuBailo} /> */}
+          <Route exact path="/whatsnext" component={WhatsNext} />
+          {/* <Route exact path="/menu" component={MenuBailo} /> */}
         </Switch>
       </div>
     );
