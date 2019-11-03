@@ -34,7 +34,8 @@ class MapHome extends Component {
       longitude: 2.161712,
       zoom: 8
     },
-    popupInfo: null
+    popupInfo: null,
+    userLocation: {}
   };
 
   async componentDidMount() {
@@ -67,6 +68,26 @@ class MapHome extends Component {
     );
   }
 
+  setUserLocation = () => {
+    navigator.geolocation.getCurrentPosition(position => {
+      let setUserLocation = {
+        lat: position.coords.latitude,
+        long: position.coords.longitude
+      };
+      let newViewport = {
+        height: "100vh",
+        width: "100vw",
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        zoom: 10
+      };
+      this.setState({
+        viewport: newViewport,
+        userLocation: setUserLocation
+      });
+    });
+  };
+
   render() {
     const { viewport } = this.state;
     return (
@@ -76,6 +97,18 @@ class MapHome extends Component {
         mapStyle="mapbox://styles/mapbox/light-v10"
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
       >
+        <button onClick={this.setUserLocation}>My Location</button>
+        {Object.keys(this.state.userLocation).length !== 0 ? (
+          <Marker
+            latitude={this.state.userLocation.lat}
+            longitude={this.state.userLocation.long}
+          >
+            <div>yo</div>
+            {/* <img className="location-icon" src="location-icon.svg" alt="" /> */}
+          </Marker>
+        ) : (
+            <div>Empty</div>
+          )}
         <div>
           {this.state.listOfVenues.length > 0 &&
             this.state.listOfVenues.map(venue => {
