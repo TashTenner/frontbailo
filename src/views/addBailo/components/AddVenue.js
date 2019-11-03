@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import venueService from "../../../services/venueService";
-// import axios from "axios";
 
 export default class AddVenue extends Component {
   state = {

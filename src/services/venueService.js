@@ -28,6 +28,12 @@ class VenueService {
       .put(`/venues/${venue._id}/edit`, venue)
       .then(({ data: venue }) => venue);
   }
+
+  deleteVenue(id) {
+    return this.axios
+      .delete(`/venues/${id}/delete`)
+      .then(({ data: venues }) => venues);
+  }
 }
 
 const venueService = new VenueService();
