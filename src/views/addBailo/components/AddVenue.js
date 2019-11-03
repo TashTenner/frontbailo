@@ -1,200 +1,273 @@
 import React, { Component } from "react";
 import venueService from "../../../services/venueService";
+// import axios from "axios";
 
 export default class AddVenue extends Component {
-  constructor(props) {
-    super(props);
-    this.onChangeName = this.onChangeName.bind(this);
-    this.onChangeRating = this.onChangeRating.bind(this);
-    // this.onChangeAddress = this.onChangeAddress.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
+  state = {
+    venue: {}
+  };
 
-    this.state = {
-      name: "",
-      rating: 0
-      // address: {
-      //   street: "",
-      //   number: 0,
-      //   additionalInfo: "",
-      //   postcode: "",
-      //   city: "",
-      //   country: ""
-      // }
+  handleChange = event => {
+    if (event.target.type === "text") {
+      this.setState(
+        {
+          [event.target.name]: event.target.value
+        },
+        () => console.log(this.state)
+      );
+    } else if (event.target.type === "number") {
+      this.setState(
+        {
+          [event.target.name]: parseFloat(event.target.value)
+        },
+        () => console.log(this.state)
+      );
+    } else if (event.target.type === "date") {
+      this.setState(
+        {
+          [event.target.name]: new Date(event.target.value).toISOString()
+        },
+        () => console.log(this.state)
+      );
+    } else if (event.target.type === "time") {
+      this.setState(
+        {
+          [event.target.name]: event.target.value
+        },
+        () => console.log(this.state)
+      );
+    }
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    console.log("hola1");
+    const venue = {
+      type: this.state.typeFeature,
+      geometry: {
+        type: this.state.typeGeometry,
+        coordinates: [this.state.lng, this.state.lat]
+      },
+      properties: {
+        name: this.state.name,
+        address: this.state.address,
+        mapOption: this.state.mapOption,
+        date: this.state.date,
+        frequency: this.state.frequency,
+        startTime: this.state.startTime,
+        endTime: this.state.endTime,
+        price: this.state.price,
+        phoneNr: this.state.phoneNr,
+        mail: this.state.mail,
+        website: this.state.website,
+        nameOrganizer: this.state.nameOrganizer,
+        mainPhoto: this.state.mainPhoto,
+        rating: this.state.rating,
+        creator: this.state.creator,
+        status: this.state.status
+      }
     };
-  }
-  onChangeName(e) {
-    console.log(e.target.value);
-    this.setState({
-      name: e.target.value
-    });
-  }
+    console.log("hola2");
 
-  onChangeRating(e) {
-    console.log(e.target.value);
-    this.setState({
-      rating: e.target.value
-    });
-  }
-
-  // onChangeAddress(e) {
-  //   console.log(e.target.value);
-  //   this.setState({
-  //     address: {
-  //       street: e.target.value,
-  //       number: e.target.value,
-  //       additionalInfo: e.target.value,
-  //       postcode: e.target.value,
-  //       city: e.target.value,
-  //       country: e.target.value
-  //     }
-  //   });
-  // }
-
-  async onSubmit(e) {
-    e.preventDefault();
-    const obj = {
-      name: this.state.name,
-      rating: this.state.rating
-    };
-    // console.log("OBJECT TO SEND: ", obj);
-    const newVenue = await venueService.createVenue(obj);
-    this.setState({
-      name: newVenue.name,
-      rating: newVenue.rating
-      // address: {
-      //   street: newVenue.address.street,
-      //   number: newVenue.address.number,
-      //   additionalInfo: newVenue.address.additionalInfo,
-      //   postcode: newVenue.address.postcode,
-      //   city: newVenue.address.city,
-      //   country: newVenue.address.country
-      // }
-    });
-  }
+    venueService
+      .createVenue(venue)
+      .then(res => console.log(res.data))
+      .then(console.log("hola3"));
+  };
 
   render() {
+    const {
+      venue: {
+        typeFeature,
+        typeGeometry,
+        lng,
+        lat,
+        name,
+        address,
+        mapOption,
+        date,
+        frequency,
+        startTime,
+        endTime,
+        price,
+        phoneNr,
+        mail,
+        website,
+        nameOrganizer,
+        mainPhoto,
+        rating,
+        creator,
+        status
+      }
+    } = this.state;
     return (
-      <div style={{ marginTop: 10 }}>
-        <h3>Add New Venue</h3>
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label>Name: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.name}
-              onChange={this.onChangeName}
-            />
-          </div>
-          <div className="form-group">
-            <label>Rating: </label>
-            <input
-              type="number"
-              className="form-control"
-              value={this.state.rating}
-              onChange={this.onChangeRating}
-            />
-          </div>
-          {/* <div className="form-group">
-            <label>Address: </label>
-            <input
-              type="number"
-              className="form-control"
-              value={this.state.address}
-              onChange={this.onChangeAddress}
-            />
-          </div> */}
-          <div className="form-group">
-            <input
-              type="submit"
-              value="Add Venue"
-              className="btn btn-primary"
-            />
-          </div>
-        </form>
-      </div>
+      <form onSubmit={this.handleSubmit}>
+        <div>New venue:</div>
+        <br></br>
+        <label>typeFeature:</label>
+        <input
+          type="text"
+          name="typeFeature"
+          value={typeFeature}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>typeGeometry:</label>
+        <input
+          type="text"
+          name="typeGeometry"
+          value={typeGeometry}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>lng:</label>
+        <input
+          type="number"
+          step="0.000001"
+          name="lng"
+          value={lng}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>lat:</label>
+        <input
+          type="number"
+          step="0.000001"
+          name="lat"
+          value={lat}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>name:</label>
+        <input
+          type="text"
+          name="name"
+          value={name}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>address:</label>
+        <input
+          type="text"
+          name="address"
+          value={address}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>mapOption:</label>
+        <input
+          type="text"
+          name="mapOption"
+          value={mapOption}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>date:</label>
+        <input
+          type="date"
+          name="date"
+          value={date}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>frequency:</label>
+        <input
+          type="text"
+          name="frequency"
+          value={frequency}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>startTime:</label>
+        <input
+          type="time"
+          name="startTime"
+          value={startTime}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>endTime:</label>
+        <input
+          type="time"
+          name="endTime"
+          value={endTime}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>price:</label>
+        <input
+          type="text"
+          name="price"
+          value={price}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>phoneNr:</label>
+        <input
+          type="text"
+          name="phoneNr"
+          value={phoneNr}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>mail:</label>
+        <input
+          type="text"
+          name="mail"
+          value={mail}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>website:</label>
+        <input
+          type="text"
+          name="website"
+          value={website}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>nameOrganizer:</label>
+        <input
+          type="text"
+          name="nameOrganizer"
+          value={nameOrganizer}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>mainPhoto:</label>
+        <input
+          type="text"
+          name="mainPhoto"
+          value={mainPhoto}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>Rating:</label>
+        <input
+          type="number"
+          name="rating"
+          value={rating}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>creator:</label>
+        <input
+          type="text"
+          name="creator"
+          value={creator}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <label>status:</label>
+        <input
+          type="text"
+          name="status"
+          value={status}
+          onChange={this.handleChange}
+        />
+        <br></br>
+        <input type="submit" value="Add" />
+      </form>
     );
   }
 }
-
-// import React, { Component } from "react";
-// import axios from "axios";
-
-// class BookAdd extends Component {
-//   state = {
-//     book: {}
-//   };
-
-//   handleChange = event => {
-//     this.setState(
-//       {
-//         [event.target.name]:
-//           event.target.type === "number"
-//             ? parseInt(event.target.value)
-//             : event.target.value
-//       },
-//       () => console.log(this.state)
-//     );
-//   };
-
-//   handleSubmit = event => {
-//     event.preventDefault();
-//     console.log("hola1");
-
-//     const book = {
-//       name: this.state.name,
-//       author: this.state.author,
-//       description: this.state.description,
-//       rating: this.state.rating
-//     };
-//     console.log("hola2");
-//     axios
-//       .post(`http://localhost:3000/api/books/`, { book })
-//       .then(res => console.log(res.data))
-//       .then(console.log("hola3"));
-//   };
-
-//   render() {
-//     const {
-//       book: { name, author, description, rating }
-//     } = this.state;
-//     return (
-//       <form onSubmit={this.handleSubmit}>
-//         <div>New book:</div>
-//         <label>Name:</label>
-//         <input
-//           type="text"
-//           name="name"
-//           value={name}
-//           onChange={this.handleChange}
-//         />
-//         <label>Author:</label>
-//         <input
-//           type="text"
-//           name="author"
-//           value={author}
-//           onChange={this.handleChange}
-//         />
-//         <label>Description:</label>
-//         <input
-//           type="text"
-//           name="description"
-//           value={description}
-//           onChange={this.handleChange}
-//         />
-//         <label>Rating:</label>
-//         <input
-//           type="number"
-//           name="rating"
-//           value={rating}
-//           onChange={this.handleChange}
-//         />
-//         <input type="submit" value="Add" />
-//       </form>
-//     );
-//   }
-// }
-
-// export default BookAdd;
-
-// create.component.js
