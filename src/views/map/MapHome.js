@@ -77,7 +77,7 @@ class MapHome extends Component {
   // }
 
   renderPopup() {
-    const { popupInfo, viewport } = this.state;
+    const { popupInfo } = this.state;
 
     return (
       popupInfo && (

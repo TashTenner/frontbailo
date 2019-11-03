@@ -13,7 +13,7 @@ class VenueService {
   }
 
   createVenue(body) {
-    // console.log("BODY TO API: ", body);
+    console.log("BODY TO API: ", body);
     return this.axios
       .post("/venues/new", body)
       .then(({ data: venue }) => venue);
