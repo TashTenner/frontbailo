@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
-import venueService from "../../../services/venueService";
+import schoolService from "../../../services/schoolService";
 
-import VenueCard from "./components/VenueCard";
+import SchoolCard from "./components/SchoolCard";
 
-class VenueLongDetail extends Component {
+class SchoolLongDetail extends Component {
   state = {
-    venue: {},
+    school: {},
     loading: true,
     redirect: false
   };
@@ -30,9 +30,9 @@ class VenueLongDetail extends Component {
       }
     } = this.props;
     try {
-      const venue = await venueService.getVenueById(id);
+      const school = await schoolService.getSchoolById(id);
       this.setState({
-        venue,
+        school,
         loading: false
       });
     } catch (error) {
@@ -43,12 +43,12 @@ class VenueLongDetail extends Component {
     }
   }
 
-  deleteVenue = () => {
+  deleteSchool = () => {
     const { params } = this.props.match;
-    venueService
-      .deleteVenue(params.id)
+    schoolService
+      .deleteSchool(params.id)
       .then(() => {
-        this.props.history.push("/venues"); // !!!
+        this.props.history.push("/schools"); // !!!
       })
       .then(() => {
         this.setState({
@@ -64,15 +64,15 @@ class VenueLongDetail extends Component {
   };
 
   render() {
-    const { venue, loading } = this.state;
+    const { school, loading } = this.state;
     console.log("render");
     return (
       <>
         {loading && <div>Loading...</div>}
         {!loading && (
           <div>
-            <VenueCard venue={venue} />
-            <Link to={`/admin/venues/${venue._id}/edit`}>Edit venue</Link>
+            <SchoolCard school={school} />
+            <Link to={`/admin/schools/${school._id}/edit`}>Edit school</Link>
             {/* button only for admin */}
 
             {/* <div>
@@ -80,7 +80,7 @@ class VenueLongDetail extends Component {
               <button onClick={this.setRedirect}>Redirect</button>
             </div> */}
 
-            <button onClick={() => this.deleteVenue()}>Delete venue</button>
+            <button onClick={() => this.deleteSchool()}>Delete school</button>
             {/* only for admin */}
             {/* if (this.state.redirect){
         return <Redirect
@@ -94,4 +94,4 @@ class VenueLongDetail extends Component {
   }
 }
 
-export default VenueLongDetail;
+export default SchoolLongDetail;
