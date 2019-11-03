@@ -78,7 +78,7 @@
 // export default VenueLongDetail;
 
 import React, { Component } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import venueService from "../../../services/venueService";
 
 // import axios from "axios";
@@ -132,6 +132,8 @@ class VenueLongDetail extends Component {
         {!loading && (
           <div>
             <VenueCard venue={venue} />
+            <Link to={`/admin/venues/${venue._id}/edit`}>Edit venue</Link>
+            {/* button only for admin */}
             {/* <button onClick={() => this.deleteProject()}>Delete</button> */}
           </div>
         )}

@@ -9,7 +9,7 @@ export default class VenueInfo extends PureComponent {
     return (
       <div>
         <div>
-          <Link to={`/venue/${info._id}`}>{displayName}</Link>
+          <Link to={`/venues/${info._id}`}>{displayName}</Link>
         </div>
         <div>
           <div>{info.properties.address}</div>

@@ -22,6 +22,12 @@ class VenueService {
       .post("/venues/new", body)
       .then(({ data: venue }) => venue);
   }
+
+  updateVenue(venue) {
+    return this.axios
+      .put(`/venues/${venue._id}/edit`, venue)
+      .then(({ data: venue }) => venue);
+  }
 }
 
 const venueService = new VenueService();
