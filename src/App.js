@@ -6,6 +6,7 @@ import MapHome from "./views/map/MapHome";
 import AddBailo from "./views/addBailo/AddBailo";
 import AddVenue from "./views/addBailo/components/AddVenue";
 import AddSchool from "./views/addBailo/components/AddSchool";
+import VenueLongDetail from "./views/map/venues/VenueLongDetail";
 // import WhatsNext from "./views/map/WhatsNext";
 // import MenuBailo from "./views/map/MenuBailo";
 
@@ -22,6 +23,7 @@ class App extends Component {
           <Route exact path="/add" component={AddBailo} />
           <Route exact path="/add/venue" component={AddVenue} />
           <Route exact path="/add/school" component={AddSchool} />
+          <Route exact path="/venue/:id" component={VenueLongDetail} />
           {/* <Route exact path="/whatsnext" component={WhatsNext} />
           <Route exact path="/menu" component={MenuBailo} /> */}
         </Switch>

@@ -12,6 +12,10 @@ class VenueService {
     return this.axios.get("/venues").then(({ data: venues }) => venues);
   }
 
+  getVenueById(id) {
+    return this.axios.get(`/venues/${id}`).then(({ data: venue }) => venue);
+  }
+
   createVenue(body) {
     console.log("BODY TO API: ", body);
     return this.axios
