@@ -3,26 +3,50 @@ import venueService from "../../services/venueService";
 import MapGL, {
   NavigationControl,
   Marker,
-  FullscreenControl,
-  Popup
+  // FullscreenControl,
+  Popup,
+  GeolocateControl
 } from "react-map-gl";
+// import DeckGL, { GeoJsonLayer } from "deck.gl";
+import Geocoder from "react-map-gl-geocoder";
 
 import MapPin from "./components/MapPin";
 import VenueInfo from "./components/VenueInfo";
 
-const fullscreenControlStyle = {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  padding: "10px"
-};
+import "mapbox-gl/dist/mapbox-gl.css";
+import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+
+// import "./MapHome.css";
+
+
+// const fullscreenControlStyle = {
+//   position: "absolute",
+//   top: 0,
+//   left: 0,
+//   padding: "10px"
+// };
 
 const navStyle = {
   position: "absolute",
-  top: 36,
-  left: 0,
+  top: 0,
+  right: 0,
   padding: "10px"
 };
+
+const geolocateStyle = {
+  position: 'absolute',
+  top: 100,
+  right: 0,
+  margin: 10
+};
+
+// const geocoderStyle = {
+//   position: 'absolute',
+//   top: 0,
+//   left: 0,
+//   margin: 10,
+//   width: "77vw"
+// };
 
 class MapHome extends Component {
   state = {
@@ -32,11 +56,44 @@ class MapHome extends Component {
       height: "100vh",
       latitude: 41.401456,
       longitude: 2.161712,
-      zoom: 8
+      zoom: 8,
+      bearing: 0,
+      pitch: 0
     },
     popupInfo: null,
-    userLocation: {}
+    userLocation: {},
+    // searchResultLayer: null
   };
+
+  mapRef = React.createRef()
+
+  handleViewportChange = viewport => {
+    this.setState({
+      viewport: { ...this.state.viewport, ...viewport }
+    })
+  }
+  // if you are happy with Geocoder default settings, you can just use handleViewportChange directly
+  handleGeocoderViewportChange = viewport => {
+    const geocoderDefaultOverrides = { transitionDuration: 1000 };
+
+    return this.handleViewportChange({
+      ...viewport,
+      ...geocoderDefaultOverrides
+    });
+  };
+
+  // handleOnResult = event => {
+  //   this.setState({
+  //     searchResultLayer: new GeoJsonLayer({
+  //       id: "search-result",
+  //       data: event.result.geometry,
+  //       getFillColor: [255, 0, 0, 128],
+  //       getRadius: 1000,
+  //       pointRadiusMinPixels: 10,
+  //       pointRadiusMaxPixels: 10
+  //     })
+  //   })
+  // }
 
   async componentDidMount() {
     try {
@@ -68,75 +125,66 @@ class MapHome extends Component {
     );
   }
 
-  setUserLocation = () => {
-    navigator.geolocation.getCurrentPosition(position => {
-      let setUserLocation = {
-        lat: position.coords.latitude,
-        long: position.coords.longitude
-      };
-      let newViewport = {
-        height: "100vh",
-        width: "100vw",
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        zoom: 10
-      };
-      this.setState({
-        viewport: newViewport,
-        userLocation: setUserLocation
-      });
-    });
-  };
-
   render() {
-    const { viewport } = this.state;
+    const { viewport, /* searchResultLayer */ } = this.state;
     return (
-      <MapGL
-        {...viewport}
-        onViewportChange={viewport => this.setState({ viewport })}
-        mapStyle="mapbox://styles/mapbox/light-v10"
-        mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-      >
-        <button onClick={this.setUserLocation}>My Location</button>
-        {Object.keys(this.state.userLocation).length !== 0 ? (
-          <Marker
-            latitude={this.state.userLocation.lat}
-            longitude={this.state.userLocation.long}
-          >
-            <div>yo</div>
-            {/* <img className="location-icon" src="location-icon.svg" alt="" /> */}
-          </Marker>
-        ) : (
-            <div>Empty</div>
-          )}
-        <div>
-          {this.state.listOfVenues.length > 0 &&
-            this.state.listOfVenues.map(venue => {
-              return (
-                <div key={venue._id}>
-                  <Marker
-                    longitude={venue.geometry.coordinates[0]}
-                    latitude={venue.geometry.coordinates[1]}
-                  >
-                    <MapPin
-                      size={20}
-                      onClick={() => this.setState({ popupInfo: venue })}
-                    />
-                  </Marker>
-                </div>
-              );
-            })}
-          {this.renderPopup()}
-          <div className="fullscreen" style={fullscreenControlStyle}>
-            <FullscreenControl />
+      <div>
+        <MapGL
+          ref={this.mapRef}
+          {...viewport}
+          // onViewportChange={viewport => this.setState({ viewport })}
+          onViewportChange={this.handleViewportChange}
+          mapStyle="mapbox://styles/mapbox/light-v10"
+          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+        >
+          <GeolocateControl
+            style={geolocateStyle}
+            positionOptions={{ enableHighAccuracy: true }}
+            trackUserLocation={true}
+          />
+          {/* https://github.com/uber/react-map-gl/issues/921 */}
+          <div>
+            {this.state.listOfVenues.length > 0 &&
+              this.state.listOfVenues.map(venue => {
+                return (
+                  <div key={venue._id}>
+                    <Marker
+                      longitude={venue.geometry.coordinates[0]}
+                      latitude={venue.geometry.coordinates[1]}
+                    >
+                      <MapPin
+                        size={20}
+                        onClick={() => this.setState({ popupInfo: venue })}
+                      />
+                    </Marker>
+                  </div>
+                );
+              })}
+            {this.renderPopup()}
+            {/* <div className="fullscreen" style={fullscreenControlStyle}>
+              <FullscreenControl />
+            </div> */}
+            <div className="nav" style={navStyle}>
+              <NavigationControl
+                onViewportChange={viewport => this.setState({ viewport })}
+              />
+            </div>
+            <div className="test">
+              <Geocoder
+                mapRef={this.mapRef}
+                // onResult={this.handleOnResult}
+                onViewportChange={this.handleGeocoderViewportChange}
+                mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+                position='top-left'
+              // width='77vw'
+              // style={geocoderStyle}
+              />
+            </div>
           </div>
-          <div className="nav" style={navStyle}>
-            <NavigationControl
-              onViewportChange={viewport => this.setState({ viewport })}
-            />
-          </div>
-        </div>
-      </MapGL>
+          {/* <DeckGL {...viewport} layers={[searchResultLayer]} /> */}
+        </MapGL>
+
+      </div >
     );
   }
 }
