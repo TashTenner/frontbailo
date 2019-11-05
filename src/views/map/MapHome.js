@@ -13,6 +13,7 @@ import Geocoder from "react-map-gl-geocoder";
 import MapPin from "./components/MapPin";
 import VenueInfo from "./components/VenueInfo";
 import InfoBox from "./components/InfoBox";
+import OptionBar from "./components/OptionBar"
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -183,6 +184,9 @@ class MapHome extends Component {
                 onViewportChange={viewport => this.setState({ viewport })}
               />
             </div>
+            <div>
+              <OptionBar />
+            </div>
             <div className="test">
               <Geocoder
                 mapRef={this.mapRef}
@@ -193,12 +197,14 @@ class MapHome extends Component {
               // width='77vw'
               // style={geocoderStyle}
               />
-              <InfoBox
-                containerComponent={this.props.containerComponent}
-                info={popupInfo}
-              // settings={this.state}
-              // onChange={this._updateSettings}
-              />
+              <div>
+                <InfoBox
+                  containerComponent={this.props.containerComponent}
+                  info={popupInfo}
+                // settings={this.state}
+                // onChange={this._updateSettings}
+                />
+              </div>
             </div>
           </div>
           {/* <DeckGL {...viewport} layers={[searchResultLayer]} /> */}
