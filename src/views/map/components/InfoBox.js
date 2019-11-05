@@ -60,18 +60,6 @@ export default class InfoBox extends PureComponent {
           />
         </div> */}
 
-        {/* <form>
-          <p>Please select either milongas or tango schools:</p>
-          <div>
-            <input type="radio" id="venues" name="contact" value="email" checked>
-            <label for="venues">milongas</label>
-            <input type="radio" id="schools" name="contact" value="phone">
-            <label for="schools">schools</label>     
-          </div>
-          <div>
-            <button type="submit">Submit</button>
-          </div>
-        </form> */}
 
       </Container>
     );
