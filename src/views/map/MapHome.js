@@ -5,7 +5,8 @@ import MapGL, {
   Marker,
   // FullscreenControl,
   Popup,
-  GeolocateControl
+  GeolocateControl,
+  // Source, Layer
 } from "react-map-gl";
 // import DeckGL, { GeoJsonLayer } from "deck.gl";
 import Geocoder from "react-map-gl-geocoder";
@@ -19,6 +20,12 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 // import "./MapHome.css";
+
+// import ControlPanel from './control-panel';
+// import {dataLayer} from './map-style.js';
+// import {updatePercentiles} from './utils';
+
+
 
 
 // const fullscreenControlStyle = {
@@ -52,6 +59,9 @@ const geolocateStyle = {
 
 class MapHome extends Component {
   state = {
+    //     year: 2015,
+    //     data: null,
+    //     hoveredFeature: null,
     listOfVenues: [],
     viewport: {
       width: "100vw",
@@ -68,6 +78,9 @@ class MapHome extends Component {
   };
 
   mapRef = React.createRef()
+
+  //   _onViewportChange = viewport => this.setState({viewport});
+
 
   handleViewportChange = viewport => {
     this.setState({
@@ -108,6 +121,57 @@ class MapHome extends Component {
     }
   }
 
+  //   componentDidMount() {
+  //     requestJson('data/us-income.geojson', (error, response) => {
+  //       if (!error) {
+  //         this._loadData(response);
+  //       }
+  //     });
+  //   }
+
+  //   _loadData = data => {
+  //     updatePercentiles(data, f => f.properties.income[this.state.year]);
+  //     this.setState({data});
+  //   };
+
+  //   _updateSettings = (name, value) => {
+  //     if (name === 'year') {
+  //       this.setState({year: value});
+
+  //       const {data} = this.state;
+  //       if (data) {
+  //         updatePercentiles(data, f => f.properties.income[value]);
+  //         // trigger update
+  //         this.setState({data: {...data}});
+  //       }
+  //     }
+  //   };
+
+  //   _onHover = event => {
+  //     const {
+  //       features,
+  //       srcEvent: {offsetX, offsetY}
+  //     } = event;
+  //     const hoveredFeature = features && features.find(f => f.layer.id === 'data');
+
+  //     this.setState({hoveredFeature, x: offsetX, y: offsetY});
+  //   };
+
+  //   _renderTooltip() {
+  //     const {hoveredFeature, x, y} = this.state;
+
+  //     return (
+  //       hoveredFeature && (
+  //         <div className="tooltip" style={{left: x, top: y}}>
+  //           <div>State: {hoveredFeature.properties.name}</div>
+  //           <div>Median Household Income: {hoveredFeature.properties.value}</div>
+  //           <div>Percentile: {(hoveredFeature.properties.percentile / 8) * 100}</div>
+  //         </div>
+  //       )
+  //     );
+  //   }
+
+
   renderPopup() {
     const { popupInfo } = this.state;
 
@@ -142,6 +206,7 @@ class MapHome extends Component {
 
   render() {
     const { viewport, popupInfo  /* searchResultLayer */ } = this.state;
+    // data
     return (
       <div>
         <MapGL
@@ -149,9 +214,22 @@ class MapHome extends Component {
           {...viewport}
           // onViewportChange={viewport => this.setState({ viewport })}
           onViewportChange={this.handleViewportChange}
+          // onViewportChange={this._onViewportChange}
+          // onHover={this._onHover}
           mapStyle="mapbox://styles/mapbox/light-v10"
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         >
+
+          {/* <Source type="circle" data={data}>
+//             <Layer {...dataLayer} />
+//           </Source>
+//           {this._renderTooltip()} */}
+
+
+          {/* <Source type="geojson" data={data}>
+//             <Layer {...dataLayer} />
+//           </Source>
+//           {this._renderTooltip()} */}
           <GeolocateControl
             style={geolocateStyle}
             positionOptions={{ enableHighAccuracy: true }}
@@ -209,7 +287,6 @@ class MapHome extends Component {
           </div>
           {/* <DeckGL {...viewport} layers={[searchResultLayer]} /> */}
         </MapGL>
-
       </div >
     );
   }

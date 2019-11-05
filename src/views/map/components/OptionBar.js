@@ -8,17 +8,14 @@ export default class OptionBar extends PureComponent {
       <div className="OptionBar">
         <form>
           {/* <p>Please select either milongas or tango schools:</p> */}
-          <div>
-            <input type="radio" id="venues" name="contact" value="email" /* checked*/ />
-            <label>milongas</label>
-            <input type="radio" id="schools" name="contact" value="phone" />
-            <label>schools</label>
-          </div>
-          {/* <div>
-            <button type="submit">Submit</button>
-          </div> */}
+          <select className="OptionBar-Dropdown">
+            <option id="venues" value="venues">milongas</option>
+            <option id="schools" value="schools">schools</option>
+          </select>
         </form>
       </div>
     );
   }
 }
+
+

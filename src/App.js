@@ -12,6 +12,8 @@ import EditVenue from "./views/map/venues/EditVenue";
 import WhatsNext from "./views/whatsNext/WhatsNext";
 import MenuBailo from "./views/menuBailo/MenuBailo";
 
+import MapTest from "./views/map/MapTest";
+
 import { Switch, Route } from "react-router-dom";
 
 class App extends Component {
@@ -31,6 +33,8 @@ class App extends Component {
           <Route exact path="/admin/venues/:id/edit" component={EditVenue} />
           <Route exact path="/whatsnext" component={WhatsNext} />
           <Route exact path="/menu" component={MenuBailo} />
+
+          <Route exact path="/test" component={MapTest} />
         </Switch>
       </div>
     );
