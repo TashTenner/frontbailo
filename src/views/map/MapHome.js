@@ -12,6 +12,7 @@ import Geocoder from "react-map-gl-geocoder";
 
 import MapPin from "./components/MapPin";
 import VenueInfo from "./components/VenueInfo";
+import InfoBox from "./components/InfoBox";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -113,7 +114,7 @@ class MapHome extends Component {
       popupInfo && (
         <Popup
           tipSize={5}
-          anchor="top"
+          anchor="bottom"
           longitude={popupInfo.geometry.coordinates[0]}
           latitude={popupInfo.geometry.coordinates[1]}
           closeOnClick={false}
@@ -125,8 +126,21 @@ class MapHome extends Component {
     );
   }
 
+  // updateSettings = (name, value) => {
+  //   if (name === 'year') {
+  //     this.setState({ year: value });
+
+  //     const { data } = this.state;
+  //     if (data) {
+  //       updatePercentiles(data, f => f.properties.income[value]);
+  //       // trigger update
+  //       this.setState({ data: { ...data } });
+  //     }
+  //   }
+  // };
+
   render() {
-    const { viewport, /* searchResultLayer */ } = this.state;
+    const { viewport, popupInfo  /* searchResultLayer */ } = this.state;
     return (
       <div>
         <MapGL
@@ -178,6 +192,12 @@ class MapHome extends Component {
                 position='top-left'
               // width='77vw'
               // style={geocoderStyle}
+              />
+              <InfoBox
+                containerComponent={this.props.containerComponent}
+                info={popupInfo}
+              // settings={this.state}
+              // onChange={this._updateSettings}
               />
             </div>
           </div>
