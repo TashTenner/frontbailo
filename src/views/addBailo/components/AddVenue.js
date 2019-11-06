@@ -14,14 +14,14 @@ export default class AddVenue extends Component {
         },
         () => console.log(this.state)
       );
-    } else if (event.target.type === "number") {
+    } /* else if (event.target.type === "number") {
       this.setState(
         {
           [event.target.name]: parseFloat(event.target.value)
         },
         () => console.log(this.state)
       );
-    } else if (event.target.type === "date") {
+    } */ else if (event.target.type === "date") {
       this.setState(
         {
           [event.target.name]: new Date(event.target.value).toISOString()
@@ -42,9 +42,9 @@ export default class AddVenue extends Component {
     event.preventDefault();
     console.log("hola1");
     const venue = {
-      type: this.state.typeFeature,
+      // type: this.state.typeFeature,
       geometry: {
-        type: this.state.typeGeometry,
+        // type: this.state.typeGeometry,
         coordinates: [this.state.lng, this.state.lat]
       },
       properties: {
@@ -59,11 +59,11 @@ export default class AddVenue extends Component {
         phoneNr: this.state.phoneNr,
         mail: this.state.mail,
         website: this.state.website,
-        nameOrganizer: this.state.nameOrganizer,
-        mainPhoto: this.state.mainPhoto,
-        rating: this.state.rating,
-        creator: this.state.creator,
-        status: this.state.status
+        // nameOrganizer: this.state.nameOrganizer,
+        // mainPhoto: this.state.mainPhoto,
+        // rating: this.state.rating,
+        // creator: this.state.creator,
+        // status: this.state.status
       }
     };
     console.log("hola2");
@@ -77,8 +77,8 @@ export default class AddVenue extends Component {
   render() {
     const {
       venue: {
-        typeFeature,
-        typeGeometry,
+        // typeFeature,
+        // typeGeometry,
         lng,
         lat,
         name,
@@ -92,18 +92,18 @@ export default class AddVenue extends Component {
         phoneNr,
         mail,
         website,
-        nameOrganizer,
-        mainPhoto,
-        rating,
-        creator,
-        status
+        // nameOrganizer,
+        // mainPhoto,
+        // rating,
+        // creator,
+        // status
       }
     } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
         <div>New venue:</div>
         <br></br>
-        <label>typeFeature:</label>
+        {/* <label>typeFeature:</label>
         <input
           type="text"
           name="typeFeature"
@@ -118,7 +118,7 @@ export default class AddVenue extends Component {
           value={typeGeometry}
           onChange={this.handleChange}
         />
-        <br></br>
+        <br></br> */}
         <label>lng:</label>
         <input
           type="number"
@@ -224,7 +224,7 @@ export default class AddVenue extends Component {
           value={website}
           onChange={this.handleChange}
         />
-        <br></br>
+        {/* <br></br>
         <label>nameOrganizer:</label>
         <input
           type="text"
@@ -264,7 +264,7 @@ export default class AddVenue extends Component {
           value={status}
           onChange={this.handleChange}
         />
-        <br></br>
+        <br></br> */}
         <input type="submit" value="Add" />
       </form>
     );

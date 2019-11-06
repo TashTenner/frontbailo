@@ -19,9 +19,9 @@ const VenueCard = props => {
         phoneNr,
         mail,
         website,
-        nameOrganizer,
-        mainPhoto,
-        rating
+        // nameOrganizer,
+        // mainPhoto,
+        // rating
       }
     }
   } = props;
@@ -50,12 +50,12 @@ const VenueCard = props => {
       <p>{mail}</p>
       <label htmlFor="">website:</label>
       <p>{website}</p>
-      <label htmlFor="">nameOrganizer:</label>
+      {/* <label htmlFor="">nameOrganizer:</label>
       <p>{nameOrganizer}</p>
       <label htmlFor="">mainPhoto:</label>
       <p>{mainPhoto}</p>
       <label htmlFor="">rating:</label>
-      <p>{rating}</p>
+      <p>{rating}</p> */}
       {/* <Link to={`/admin/venues/${_id}/edit`}>Edit / delete venue</Link>
       button only for admin */}
       {/* <button onClick={changeTheme}>change Theme</button> */}

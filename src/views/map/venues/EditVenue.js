@@ -1,327 +1,283 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import venueService from "../../../services/venueService";
+// updating coordinates might be missing here
+export default class EditVenue extends Component {
+  constructor(props) {
+    super(props);
+    this.onChangeName = this.onChangeName.bind(this);
+    this.onChangeAddress = this.onChangeAddress.bind(this);
+    this.onChangeDate = this.onChangeDate.bind(this);
+    this.onChangeFrequency = this.onChangeFrequency.bind(this);
+    this.onChangeStartTime = this.onChangeStartTime.bind(this);
+    this.onChangeEndTime = this.onChangeEndTime.bind(this);
+    this.onChangePrice = this.onChangePrice.bind(this);
+    this.onChangePhoneNr = this.onChangePhoneNr.bind(this);
+    this.onChangeMail = this.onChangeMail.bind(this);
+    this.onChangeWebsite = this.onChangeWebsite.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
-class EditVenue extends Component {
-  state = {
-    venue: {},
-    loading: true
-    // message: undefined
-  };
+    this.state = {
+      venue: {
+        _id: this.props.match.params,
+        properties: { name: "", address: "", date: "", frequency: "", startTime: "", endTime: "", price: "", phoneNr: "", mail: "", website: "" }
+      },
+      loading: true
+    }
+  }
 
   async componentDidMount() {
-    console.log("hola1");
-    const {
-      match: {
-        params: { id }
-      }
-    } = this.props;
-    console.log(this.props);
-    console.log(id);
+    const { id } = this.props.match.params;
     try {
       const venue = await venueService.getVenueById(id);
       this.setState({
         venue,
         loading: false
       });
-      console.log(venue);
-      console.log(this.state);
-    } catch (error) {
-      console.log(error);
+    }
+    catch (error) {
       this.setState({
         loading: false
       });
     }
   }
 
-  // handleChange = event => {
-  //   const { venue } = this.state;
-  //   if (event.target.type === "text") {
-  //     this.setState({
-  //       venue: {
-  //         ...venue,
-  //         [event.target.name]: event.target.value
-  //       }
-  //     });
-  //   } else if (event.target.type === "number") {
-  //     this.setState({
-  //       venue: {
-  //         ...venue,
-  //         [event.target.name]: parseFloat(event.target.value)
-  //       }
-  //     });
-  //   } else if (event.target.type === "date") {
-  //     this.setState({
-  //       venue: {
-  //         ...venue,
-  //         [event.target.name]: new Date(event.target.value).toISOString()
-  //       }
-  //     });
-  //   } else if (event.target.type === "time") {
-  //     this.setState({
-  //       venue: {
-  //         ...venue,
-  //         [event.target.name]: event.target.value
-  //       }
-  //     });
-  //   }
-  // };
-
-  handleChange = e => {
-    const { venue } = this.state;
+  onChangeName(e) {
     this.setState({
       venue: {
-        ...venue,
-        [e.target.name]: e.target.value
+        ...this.state.venue,
+        properties: {
+          ...this.state.venue.properties,
+          name: e.target.value,
+        }
       }
     });
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
+
+  onChangeAddress(e) {
+    this.setState({
+      venue: {
+        ...this.state.venue,
+        properties: {
+          ...this.state.venue.properties,
+          address: e.target.value
+        }
+      }
+    });
+  };
+
+  onChangeDate(e) {
+    this.setState({
+      venue: {
+        ...this.state.venue,
+        properties: {
+          ...this.state.venue.properties,
+          date: e.target.value
+        }
+      }
+    });
+  };
+
+  onChangeFrequency(e) {
+    this.setState({
+      venue: {
+        ...this.state.venue,
+        properties: {
+          ...this.state.venue.properties,
+          frequency: e.target.value
+        }
+      }
+    });
+  };
+
+  onChangeStartTime(e) {
+    this.setState({
+      venue: {
+        ...this.state.venue,
+        properties: {
+          ...this.state.venue.properties,
+          startTime: e.target.value
+        }
+      }
+    });
+  };
+
+  onChangeEndTime(e) {
+    this.setState({
+      venue: {
+        ...this.state.venue,
+        properties: {
+          ...this.state.venue.properties,
+          endTime: e.target.value
+        }
+      }
+    });
+  };
+
+  onChangePrice(e) {
+    this.setState({
+      venue: {
+        ...this.state.venue,
+        properties: {
+          ...this.state.venue.properties,
+          price: e.target.value
+        }
+      }
+    });
+  };
+
+  onChangePhoneNr(e) {
+    this.setState({
+      venue: {
+        ...this.state.venue,
+        properties: {
+          ...this.state.venue.properties,
+          phoneNr: e.target.value
+        }
+      }
+    });
+  };
+
+  onChangeMail(e) {
+    this.setState({
+      venue: {
+        ...this.state.venue,
+        properties: {
+          ...this.state.venue.properties,
+          mail: e.target.value
+        }
+      }
+    });
+  };
+
+  onChangeWebsite(e) {
+    this.setState({
+      venue: {
+        ...this.state.venue,
+        properties: {
+          ...this.state.venue.properties,
+          website: e.target.value
+        }
+      }
+    });
+  };
+
+  onSubmit(e) {
+    e.preventDefault();
     const { venue } = this.state;
     const {
       history: { push }
     } = this.props;
-    console.log(venue);
     venueService
-      .updateBook(venue)
+      .updateVenue(venue)
       .then(() => {
-        // this.setState({
-        //   message: 'book updated',
-        // })
-        push(`/venues/${venue._id}/edit`);
+        push(`/`);
       })
-      .catch(() => {});
-  };
+      .catch(() => { });
+  }
 
   render() {
-    const {
-      venue: {
-        typeFeature,
-        typeGeometry,
-        lng,
-        lat,
-        name,
-        address,
-        // mapOption,
-        date,
-        frequency,
-        startTime,
-        endTime,
-        price,
-        phoneNr,
-        mail,
-        website,
-        nameOrganizer,
-        mainPhoto,
-        rating,
-        creator,
-        status
-      },
-      loading
-      // message
-    } = this.state;
-    console.log(this.state);
-    console.log(this.state.venue.properties);
-
     return (
       <div>
-        Hi admin, keen to edit this venue?
-        {/* {message && <div>{message}</div>} */}
-        {loading && <div>Loading...</div>}
-        {!loading && this.state.venue.length > 0 && (
-          <>
-            <form onSubmit={this.handleSubmit}>
-              <br></br>
-              <label>typeFeature:</label>
-              <input
-                type="text"
-                name="typeFeature"
-                id="typeFeature"
-                value={typeFeature}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>typeGeometry:</label>
-              <input
-                type="text"
-                name="typeGeometry"
-                id="typeGeometry"
-                value={typeGeometry}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>lng:</label>
-              <input
-                type="number"
-                step="0.000001"
-                name="lng"
-                id="lng"
-                value={lng}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>lat:</label>
-              <input
-                type="number"
-                step="0.000001"
-                name="lat"
-                id="lat"
-                value={lat}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>name:</label>
-              <input
-                type="text"
-                name="name"
-                id="name"
-                value={name}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>address:</label>
-              <input
-                type="text"
-                name="address"
-                id="address"
-                value={address}
-                onChange={this.handleChange}
-              />
-              {/* <br></br>
-              <label>mapOption:</label>
-              <input
-                type="text"
-                name="mapOption"
-                id="mapOption"
-                value={mapOption}
-                onChange={this.handleChange}
-              /> */}
-              <br></br>
-              <label>date:</label>
-              <input
-                type="date"
-                name="date"
-                id="date"
-                value={date}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>frequency:</label>
-              <input
-                type="text"
-                name="frequency"
-                id="frequency"
-                value={frequency}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>startTime:</label>
-              <input
-                type="time"
-                name="startTime"
-                id="startTime"
-                value={startTime}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>endTime:</label>
-              <input
-                type="time"
-                name="endTime"
-                id="endTime"
-                value={endTime}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>price:</label>
-              <input
-                type="text"
-                name="price"
-                id="price"
-                value={price}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>phoneNr:</label>
-              <input
-                type="text"
-                name="phoneNr"
-                id="phoneNr"
-                value={phoneNr}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>mail:</label>
-              <input
-                type="text"
-                name="mail"
-                id="mail"
-                value={mail}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>website:</label>
-              <input
-                type="text"
-                name="website"
-                id="website"
-                value={website}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>nameOrganizer:</label>
-              <input
-                type="text"
-                name="nameOrganizer"
-                id="nameOrganizer"
-                value={nameOrganizer}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>mainPhoto:</label>
-              <input
-                type="text"
-                name="mainPhoto"
-                id="mainPhoto"
-                value={mainPhoto}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>Rating:</label>
-              <input
-                type="number"
-                name="rating"
-                id="rating"
-                value={rating}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>creator:</label>
-              <input
-                type="text"
-                name="creator"
-                id="creator"
-                value={creator}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <label>status:</label>
-              <input
-                type="text"
-                name="status"
-                id="status"
-                value={status}
-                onChange={this.handleChange}
-              />
-              <br></br>
-              <input type="submit" value="Update" />
-            </form>
-          </>
-        )}
+        <h3 align="center">Update Venue</h3>
+        <form onSubmit={this.onSubmit}>
+          <div>
+            <label>Name:</label>
+            <input
+              type="text"
+              value={this.state.venue.properties.name}
+              // value={this.state.venue.properties.name || ''}
+              onChange={this.onChangeName}
+            />
+          </div>
+
+          <div>
+            <label>Address:</label>
+            <input
+              type="text"
+              value={this.state.venue.properties.address}
+              onChange={this.onChangeAddress}
+            />
+          </div>
+
+          <div>
+            <label>Date:</label>
+            <input
+              type="date"
+              value={this.state.venue.properties.date}
+              onChange={this.onChangeDate}
+            />
+          </div>
+
+          <div>
+            <label>Frequency:</label>
+            <input
+              type="text"
+              value={this.state.venue.properties.frequency}
+              onChange={this.onChangeFrequency}
+            />
+          </div>
+
+          <div>
+            <label>Start time:</label>
+            <input
+              type="time"
+              value={this.state.venue.properties.startTime}
+              onChange={this.onChangeStartTime}
+            />
+          </div>
+
+          <div>
+            <label>End time:</label>
+            <input
+              type="time"
+              value={this.state.venue.properties.endTime}
+              onChange={this.onChangeEndTime}
+            />
+          </div>
+
+          <div>
+            <label>Price:</label>
+            <input
+              type="text"
+              value={this.state.venue.properties.price}
+              onChange={this.onChangePrice}
+            />
+          </div>
+
+          <div>
+            <label>PhoneNr:</label>
+            <input
+              type="text"
+              value={this.state.venue.properties.phoneNr}
+              onChange={this.onChangePhoneNr}
+            />
+          </div>
+
+          <div>
+            <label>Mail:</label>
+            <input
+              type="text"
+              value={this.state.venue.properties.mail}
+              onChange={this.onChangeMail}
+            />
+          </div>
+
+          <div>
+            <label>Website:</label>
+            <input
+              type="text"
+              value={this.state.venue.properties.website}
+              onChange={this.onChangeWebsite}
+            />
+          </div>
+
+          <div>
+            <input type="submit"
+              value="Update" />
+          </div>
+        </form>
       </div>
-    );
+    )
   }
 }
-
-export default EditVenue;

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import venueService from "../../../services/venueService";
 
 import VenueCard from "./components/VenueCard";
@@ -48,15 +48,7 @@ class VenueLongDetail extends Component {
     venueService
       .deleteVenue(params.id)
       .then(() => {
-        this.props.history.push("/venues"); // !!!
-      })
-      .then(() => {
-        this.setState({
-          redirect: true
-        });
-      })
-      .then(() => {
-        return <Redirect to="/" />;
+        this.props.history.push("/");
       })
       .catch(err => {
         console.log(err);
