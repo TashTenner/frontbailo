@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactMapGL, { Source, Layer } from 'react-map-gl';
-import venueService from "../../services/venueService";
 
 
 const geojson = {
@@ -13,7 +12,6 @@ const geojson = {
 export default class MapTest extends Component {
 
   state = {
-    listOfVenues: [],
     viewport: {
       width: 400,
       height: 400,
@@ -22,18 +20,6 @@ export default class MapTest extends Component {
       zoom: 8
     }
   };
-
-
-  async componentDidMount() {
-    try {
-      const listOfVenues = await venueService.getAllVenues();
-      this.setState({
-        listOfVenues
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   render() {
     return (

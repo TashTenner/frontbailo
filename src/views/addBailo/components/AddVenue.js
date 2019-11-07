@@ -103,22 +103,6 @@ export default class AddVenue extends Component {
       <form onSubmit={this.handleSubmit}>
         <div>New venue:</div>
         <br></br>
-        {/* <label>typeFeature:</label>
-        <input
-          type="text"
-          name="typeFeature"
-          value={typeFeature}
-          onChange={this.handleChange}
-        />
-        <br></br>
-        <label>typeGeometry:</label>
-        <input
-          type="text"
-          name="typeGeometry"
-          value={typeGeometry}
-          onChange={this.handleChange}
-        />
-        <br></br> */}
         <label>lng:</label>
         <input
           type="number"
@@ -246,22 +230,6 @@ export default class AddVenue extends Component {
           type="number"
           name="rating"
           value={rating}
-          onChange={this.handleChange}
-        />
-        <br></br>
-        <label>creator:</label>
-        <input
-          type="text"
-          name="creator"
-          value={creator}
-          onChange={this.handleChange}
-        />
-        <br></br>
-        <label>status:</label>
-        <input
-          type="text"
-          name="status"
-          value={status}
           onChange={this.handleChange}
         />
         <br></br> */}

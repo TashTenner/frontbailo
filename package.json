@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@deck.gl/core": "^7.3.4",
+    "@deck.gl/layers": "^7.3.4",
+    "@mapbox/mapbox-sdk": "^0.8.0",
     "axios": "^0.19.0",
     "d3": "^5.12.0",
     "d3-request": "^1.0.6",
