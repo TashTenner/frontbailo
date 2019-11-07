@@ -38,7 +38,7 @@ class MapHome extends Component {
       height: "100vh",
       latitude: 41.401456,
       longitude: 2.161712,
-      zoom: 8,
+      zoom: 3,
       bearing: 0,
       pitch: 0
     },
