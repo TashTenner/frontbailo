@@ -11,18 +11,6 @@ class VenueLongDetail extends Component {
     redirect: false
   };
 
-  // setRedirect = () => {
-  //   this.setState({
-  //     redirect: true
-  //   });
-  // };
-
-  // renderRedirect = () => {
-  //   if (this.state.redirect) {
-  //     return <Redirect to="/" />;
-  //   }
-  // };
-
   async componentDidMount() {
     const {
       match: {
@@ -66,19 +54,8 @@ class VenueLongDetail extends Component {
             <VenueCard venue={venue} />
             <Link to={`/admin/venues/${venue._id}/edit`}>Edit venue</Link>
             {/* button only for admin */}
-
-            {/* <div>
-              {this.renderRedirect()}
-              <button onClick={this.setRedirect}>Redirect</button>
-            </div> */}
-
             <button onClick={() => this.deleteVenue()}>Delete venue</button>
             {/* only for admin */}
-            {/* if (this.state.redirect){
-        return <Redirect
-            to="/FinishedPaying"
-            userInput={this.state.userInput}
-            />; */}
           </div>
         )}
       </>

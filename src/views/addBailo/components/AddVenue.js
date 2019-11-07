@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import venueService from "../../../services/venueService";
 
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mbxGeocoding({
+  accessToken: 'pk.eyJ1IjoidGFzaGJjbiIsImEiOiJjazEyZ2V5ajYwMmZoM2FxeWw0dWlsdzc5In0.HTBQfyb6ItNiZbNcjF6RMw'
+});
+
 export default class AddVenue extends Component {
   state = {
     venue: {}
@@ -14,14 +19,14 @@ export default class AddVenue extends Component {
         },
         () => console.log(this.state)
       );
-    } /* else if (event.target.type === "number") {
+    } else if (event.target.type === "number") {
       this.setState(
         {
           [event.target.name]: parseFloat(event.target.value)
         },
         () => console.log(this.state)
       );
-    } */ else if (event.target.type === "date") {
+    } else if (event.target.type === "date") {
       this.setState(
         {
           [event.target.name]: new Date(event.target.value).toISOString()
@@ -37,6 +42,25 @@ export default class AddVenue extends Component {
       );
     }
   };
+
+  handleChangeMapbox = e => {
+    this.setState(
+      {
+        address: e.target.value
+      },
+      () => console.log(this.state.address));
+    if (this.state.address) {
+      geocodingClient
+        .forwardGeocode({ query: this.state.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+        .send()
+        .then(response => {
+          const match = response.body;
+          this.setState({
+            coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+          })
+        });
+    }
+  }
 
   handleSubmit = event => {
     event.preventDefault();
@@ -103,38 +127,22 @@ export default class AddVenue extends Component {
       <form onSubmit={this.handleSubmit}>
         <div>New venue:</div>
         <br></br>
-        {/* <label>typeFeature:</label>
-        <input
-          type="text"
-          name="typeFeature"
-          value={typeFeature}
-          onChange={this.handleChange}
-        />
-        <br></br>
-        <label>typeGeometry:</label>
-        <input
-          type="text"
-          name="typeGeometry"
-          value={typeGeometry}
-          onChange={this.handleChange}
-        />
-        <br></br> */}
         <label>lng:</label>
         <input
           type="number"
-          step="0.000001"
-          name="lng"
+          // step="0.00000001"
+          // name="lng"
           value={lng}
-          onChange={this.handleChange}
+        // onChange={this.handleChange}
         />
         <br></br>
         <label>lat:</label>
         <input
           type="number"
-          step="0.000001"
-          name="lat"
+          // step="0.00000001"
+          // name="lat"
           value={lat}
-          onChange={this.handleChange}
+        // onChange={this.handleChange}
         />
         <br></br>
         <label>name:</label>
@@ -150,7 +158,7 @@ export default class AddVenue extends Component {
           type="text"
           name="address"
           value={address}
-          onChange={this.handleChange}
+          onChange={this.handleChangeMapbox}
         />
         {/* <br></br>
         <label>mapOption:</label>
@@ -246,22 +254,6 @@ export default class AddVenue extends Component {
           type="number"
           name="rating"
           value={rating}
-          onChange={this.handleChange}
-        />
-        <br></br>
-        <label>creator:</label>
-        <input
-          type="text"
-          name="creator"
-          value={creator}
-          onChange={this.handleChange}
-        />
-        <br></br>
-        <label>status:</label>
-        <input
-          type="text"
-          name="status"
-          value={status}
           onChange={this.handleChange}
         />
         <br></br> */}

@@ -13,8 +13,10 @@ import WhatsNext from "./views/whatsNext/WhatsNext";
 import MenuBailo from "./views/menuBailo/MenuBailo";
 
 import MapTest from "./views/map/MapTest";
+import GeocodeTest from "./views/map/GeocodeTest";
 
 import { Switch, Route } from "react-router-dom";
+import AnotherTest from "./views/map/AnotherTest";
 
 class App extends Component {
   render() {
@@ -35,6 +37,9 @@ class App extends Component {
           <Route exact path="/menu" component={MenuBailo} />
 
           <Route exact path="/test" component={MapTest} />
+          <Route exact path="/geocodetest" component={GeocodeTest} />
+          <Route exact path="/anothertest" component={AnotherTest} />
+
         </Switch>
       </div>
     );
