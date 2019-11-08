@@ -3,7 +3,9 @@ import React, { Component } from "react";
 import { withAuth } from '../../Context/AuthContext';
 
 import venueService from "../../services/venueService";
+import practicaService from "../../services/practicaService";
 import schoolService from "../../services/schoolService";
+
 import MapGL, {
   NavigationControl,
   Marker,
@@ -76,6 +78,11 @@ class MapHome extends Component {
         this.setState({
           listOfSpots
         });
+      } else if (this.state.searchBy === 'practicas') {
+        let listOfSpots = await practicaService.getAllPracticas();
+        this.setState({
+          listOfSpots
+        });
       } else {
         let listOfSpots = await schoolService.getAllSchools();
         this.setState({
@@ -94,7 +101,7 @@ class MapHome extends Component {
   // }
 
   renderPopup() {
-    const { popupInfo } = this.state;
+    const { popupInfo, searchBy } = this.state;
     return (
       popupInfo && (
         <Popup
@@ -105,7 +112,7 @@ class MapHome extends Component {
           closeOnClick={false}
           onClose={() => this.setState({ popupInfo: null })}
         >
-          <VenueInfo info={popupInfo} />
+          <VenueInfo info={popupInfo} searchBy={searchBy} />
         </Popup>
       )
     );
@@ -217,6 +224,7 @@ class MapHome extends Component {
                   <select id="searchBy" onChange={this.handleDropdownChange} value={this.state.searchBy}>
                     <option value="select">Select an option</option>
                     <option value="venues">milongas</option>
+                    <option value="practicas">practicas</option>
                     <option value="schools">schools</option>
                   </select>
                 </form>
