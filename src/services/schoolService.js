@@ -9,29 +9,29 @@ class SchoolService {
   }
 
   getAllSchools() {
-    return this.axios.get("/schools").then(({ data: schools }) => schools);
+    return this.axios.get("/api/schools").then(({ data: schools }) => schools);
   }
 
   getSchoolById(id) {
-    return this.axios.get(`/schools/${id}`).then(({ data: school }) => school);
+    return this.axios.get(`/api/schools/${id}`).then(({ data: school }) => school);
   }
 
   createSchool(body) {
     console.log("BODY TO API: ", body);
     return this.axios
-      .post("/schools/new", body)
+      .post("/api/schools/new", body)
       .then(({ data: school }) => school);
   }
 
   updateSchool(school) {
     return this.axios
-      .put(`/schools/${school._id}/edit`, school)
+      .put(`/api/schools/${school._id}/edit`, school)
       .then(({ data: school }) => school);
   }
 
   deleteSchool(id) {
     return this.axios
-      .delete(`/schools/${id}/delete`)
+      .delete(`/api/schools/${id}/delete`)
       .then(({ data: schools }) => schools);
   }
 }

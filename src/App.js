@@ -15,46 +15,90 @@ import MenuBailo from "./views/menuBailo/MenuBailo";
 import MapTest from "./views/map/MapTest";
 import GeocodeTest from "./views/map/GeocodeTest";
 
-import { Switch, Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
+import { BrowserRouter as Router } from 'react-router-dom';
 import AnotherTest from "./views/map/AnotherTest";
+
+import PrivateView from './views/PrivateView';
+import Login from './views/auth/Login';
+import Signup from './views/auth/Signup';
+import { withAuth } from './Context/AuthContext';
+
+import PrivateRoute from './components/PrivateRoute';
+import AnonRoute from './components/AnonRoute';
+
 
 class App extends Component {
   render() {
+    const { handleLogout } = this.props;
     return (
       <div className="App">
-        <Navbar />
-        <Switch>
-          <Route exact path="/" component={MapHome} />
+        <Router>
+          <button onClick={handleLogout}>logout</button>
+          <AnonRoute component={Navbar} />
+          {/* <Navbar /> */}
+
+          <Switch>
+            <AnonRoute exact path="/login" component={Login} />
+            <AnonRoute exact path="/signup" component={Signup} />
+            <PrivateRoute exact path="/private" component={PrivateView} />
+
+            <AnonRoute exact path="/" component={MapHome} />
+            <AnonRoute exact path="/mybailo" component={MyBailo} />
+            <AnonRoute exact path="/add" component={AddBailo} />
+            <PrivateRoute exact path="/add/venue" component={AddVenue} />
+            <PrivateRoute exact path="/add/school" component={AddSchool} />
+            <AnonRoute exact path="/venues/:id" component={VenueLongDetail} />
+            <AnonRoute exact path="/schools/:id" component={SchoolLongDetail} />
+            {/* http://localhost:3000/schools/5dbf226f4465c600177b2bc1 */}
+            <PrivateRoute exact path="/admin/venues/:id/edit" component={EditVenue} />
+            <AnonRoute exact path="/whatsnext" component={WhatsNext} />
+            <AnonRoute exact path="/menu" component={MenuBailo} />
+
+            <AnonRoute exact path="/test" component={MapTest} />
+            <AnonRoute exact path="/geocodetest" component={GeocodeTest} />
+            <AnonRoute exact path="/anothertest" component={AnotherTest} />
+
+          </Switch>
+
+        </Router>
+        {/* <Navbar /> */}
+        {/* <Switch> */}
+        {/* <Route exact path="/" component={MapHome} />
           <Route exact path="/mybailo" component={MyBailo} />
           <Route exact path="/add" component={AddBailo} />
           <Route exact path="/add/venue" component={AddVenue} />
           <Route exact path="/add/school" component={AddSchool} />
           <Route exact path="/venues/:id" component={VenueLongDetail} />
-          <Route exact path="/schools/:id" component={SchoolLongDetail} />
-          {/* http://localhost:3000/schools/5dbf226f4465c600177b2bc1 */}
-          <Route exact path="/admin/venues/:id/edit" component={EditVenue} />
+          <Route exact path="/schools/:id" component={SchoolLongDetail} /> */}
+        {/* http://localhost:3000/schools/5dbf226f4465c600177b2bc1 */}
+        {/* <Route exact path="/admin/venues/:id/edit" component={EditVenue} />
           <Route exact path="/whatsnext" component={WhatsNext} />
           <Route exact path="/menu" component={MenuBailo} />
 
           <Route exact path="/test" component={MapTest} />
           <Route exact path="/geocodetest" component={GeocodeTest} />
-          <Route exact path="/anothertest" component={AnotherTest} />
-
-        </Switch>
+          <Route exact path="/anothertest" component={AnotherTest} /> */}
+        {/* </Switch> */}
       </div>
     );
   }
 }
 
-export default App;
+export default withAuth(App);
 
-// import React, { Component } from "react";
-// import axios from "axios";
-// import { Link } from "react-router-dom";
-// // import MapTwo from "./views/map/MapTwo";
-// import MapThree from "./views/map/MapThree";
-// // import Mapz from "./views/map/MapFour";
-// // import CityPin from "./views/map/City-pen";
+
+
+
+
+
+// import React, {Component} from "react";
+        // import axios from "axios";
+// import {Link} from "react-router-dom";
+        // // import MapTwo from "./views/map/MapTwo";
+        // import MapThree from "./views/map/MapThree";
+        // // import Mapz from "./views/map/MapFour";
+        // // import CityPin from "./views/map/City-pen";
 
 // class App extends Component {
 //   state = { listOfVenues: [] };

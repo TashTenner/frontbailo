@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+
+import { withAuth } from '../../Context/AuthContext';
+
 import venueService from "../../services/venueService";
 import schoolService from "../../services/schoolService";
 import MapGL, {
@@ -227,4 +230,4 @@ class MapHome extends Component {
   }
 }
 
-export default MapHome;
+export default withAuth(MapHome);
