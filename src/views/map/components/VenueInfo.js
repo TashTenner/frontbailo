@@ -3,18 +3,17 @@ import { Link } from "react-router-dom";
 
 export default class VenueInfo extends PureComponent {
   render() {
-    const { info } = this.props;
+    const { info, searchBy } = this.props;
     const displayName = `${info.properties.name}`;
 
     return (
       <div>
         <div>
-          <Link to={`/venues/${info._id}`}>{displayName}</Link>
+          <Link to={`/${searchBy}/${info._id}`}>{displayName}</Link>
         </div>
         <div>
           <div>{info.properties.address}</div>
           <div>
-            {" "}
             {info.properties.startTime}-{info.properties.endTime}
           </div>
           <div> {info.properties.price}</div>

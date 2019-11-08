@@ -5,6 +5,7 @@ const addBailo = () => {
   return (
     <div>
       <Link to="/add/venue">Add Venue</Link>
+      <Link to="/add/practica">Add Practica</Link>
       <Link to="/add/school">Add School</Link>
     </div>
   );
