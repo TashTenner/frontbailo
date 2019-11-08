@@ -9,29 +9,29 @@ class VenueService {
   }
 
   getAllVenues() {
-    return this.axios.get("/venues").then(({ data: venues }) => venues);
+    return this.axios.get("/api/venues").then(({ data: venues }) => venues);
   }
 
   getVenueById(id) {
-    return this.axios.get(`/venues/${id}`).then(({ data: venue }) => venue);
+    return this.axios.get(`/api/venues/${id}`).then(({ data: venue }) => venue);
   }
 
   createVenue(body) {
     console.log("BODY TO API: ", body);
     return this.axios
-      .post("/venues/new", body)
+      .post("/api/venues/new", body)
       .then(({ data: venue }) => venue);
   }
 
   updateVenue(venue) {
     return this.axios
-      .put(`/venues/${venue._id}/edit`, venue)
+      .put(`/api/venues/${venue._id}/edit`, venue)
       .then(({ data: venue }) => venue);
   }
 
   deleteVenue(id) {
     return this.axios
-      .delete(`/venues/${id}/delete`)
+      .delete(`/api/venues/${id}/delete`)
       .then(({ data: venues }) => venues);
   }
 }
