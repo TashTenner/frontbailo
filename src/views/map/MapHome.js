@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import venueService from "../../services/venueService";
+import schoolService from "../../services/schoolService";
 import MapGL, {
   NavigationControl,
   Marker,
@@ -11,10 +12,11 @@ import Geocoder from "react-map-gl-geocoder";
 import MapPin from "./components/MapPin";
 import VenueInfo from "./components/VenueInfo";
 import InfoBox from "./components/InfoBox";
-import OptionBar from "./components/OptionBar"
+// import OptionBar from "./components/OptionBar"
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import "./MapHome.css";
 
 const navStyle = {
   position: "absolute",
@@ -32,7 +34,8 @@ const geolocateStyle = {
 
 class MapHome extends Component {
   state = {
-    listOfVenues: [],
+    searchBy: "venues",
+    listOfSpots: [],
     viewport: {
       width: "100vw",
       height: "100vh",
@@ -45,6 +48,7 @@ class MapHome extends Component {
     popupInfo: null,
     userLocation: {},
   };
+
 
   mapRef = React.createRef()
 
@@ -64,14 +68,27 @@ class MapHome extends Component {
 
   async componentDidMount() {
     try {
-      const listOfVenues = await venueService.getAllVenues();
-      this.setState({
-        listOfVenues
-      });
+      if (this.state.searchBy === 'venues') {
+        let listOfSpots = await venueService.getAllVenues();
+        this.setState({
+          listOfSpots
+        });
+      } else {
+        let listOfSpots = await schoolService.getAllSchools();
+        this.setState({
+          listOfSpots
+        });
+      }
     } catch (error) {
       console.log(error);
     }
   }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.state.value > prevState.value) {
+  //     this.foo();  
+  //   }
+  // }
 
   renderPopup() {
     const { popupInfo } = this.state;
@@ -91,6 +108,50 @@ class MapHome extends Component {
     );
   }
 
+
+  // async handleDropdownChange(event) {
+  //   console.log(this.state.searchBy);
+  //   await this.setState({ searchBy: event.target.value });
+  //   console.log(this.state.searchBy);
+  // }
+
+  handleDropdownChange = (event) => {
+    console.log(this.state.searchBy)
+    console.log(event.target.value)
+    this.setState({ searchBy: event.target.value }, function () {
+      console.log(this.state.searchBy);
+    });
+
+    // console.log(event.target.value)
+    // console.log(this.state.searchBy)
+  }
+
+  // renderMap = () => {
+  //   if (this.state.searchBy === 'venues') {
+  //     let listOfSpots = venueService.getAllVenues();
+  //     this.setState({
+  //       listOfSpots
+  //     });
+  //   } else {
+  //     let listOfSpots = schoolService.getAllSchools();
+  //     this.setState({
+  //       listOfSpots
+  //     });
+  //   }
+  // }
+
+  // renderUser = userList => {
+  //   if (userList) {
+  //     return (
+  //       <List
+  //         key={userList.length}
+  //         users={userList.filter(user => user.gender === this.state.gender)}
+  //       />
+  //     );
+  //   } else return null;
+  // };
+
+
   render() {
     const { viewport, popupInfo } = this.state;
     return (
@@ -109,8 +170,8 @@ class MapHome extends Component {
           />
           {/* https://github.com/uber/react-map-gl/issues/921 */}
           <div>
-            {this.state.listOfVenues.length > 0 &&
-              this.state.listOfVenues.map(venue => {
+            {this.state.listOfSpots.length > 0 &&
+              this.state.listOfSpots.map(venue => {
                 return (
                   <div key={venue._id}>
                     <Marker
@@ -131,9 +192,9 @@ class MapHome extends Component {
                 onViewportChange={viewport => this.setState({ viewport })}
               />
             </div>
-            <div>
+            {/* <div>
               <OptionBar />
-            </div>
+            </div> */}
             <div className="test">
               <Geocoder
                 mapRef={this.mapRef}
@@ -146,6 +207,17 @@ class MapHome extends Component {
                   containerComponent={this.props.containerComponent}
                   info={popupInfo}
                 />
+              </div>
+              <div className="MapHomeOption">
+                <form>
+                  {/* <p>Please select either milongas or tango schools:</p> */}
+                  <select id="searchBy" onChange={this.handleDropdownChange} value={this.state.searchBy}>
+                    <option value="select">Select an option</option>
+                    <option value="venues">milongas</option>
+                    <option value="schools">schools</option>
+                  </select>
+                </form>
+                {/* {this.renderMap()} */}
               </div>
             </div>
           </div>

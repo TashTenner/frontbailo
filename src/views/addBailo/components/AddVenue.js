@@ -57,7 +57,7 @@ export default class AddVenue extends Component {
           const match = response.body;
           this.setState({
             coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
-          })
+          }, () => console.log(this.state.coordinates))
         });
     }
   }
@@ -69,7 +69,7 @@ export default class AddVenue extends Component {
       // type: this.state.typeFeature,
       geometry: {
         // type: this.state.typeGeometry,
-        coordinates: [this.state.lng, this.state.lat]
+        coordinates: [this.state.coordinates[0], this.state.coordinates[1]]
       },
       properties: {
         name: this.state.name,
@@ -103,8 +103,8 @@ export default class AddVenue extends Component {
       venue: {
         // typeFeature,
         // typeGeometry,
-        lng,
-        lat,
+        // lng,
+        // lat,
         name,
         address,
         // mapOption,
@@ -130,19 +130,19 @@ export default class AddVenue extends Component {
         <label>lng:</label>
         <input
           type="number"
-          // step="0.00000001"
-          // name="lng"
-          value={lng}
-        // onChange={this.handleChange}
+          step="0.00000001"
+          name="lng"
+          value={this.state.coordinates && this.state.coordinates[0]}
+          onChange={this.handleChange}
         />
         <br></br>
         <label>lat:</label>
         <input
           type="number"
-          // step="0.00000001"
-          // name="lat"
-          value={lat}
-        // onChange={this.handleChange}
+          step="0.00000001"
+          name="lat"
+          value={this.state.coordinates && this.state.coordinates[1]}
+          onChange={this.handleChange}
         />
         <br></br>
         <label>name:</label>

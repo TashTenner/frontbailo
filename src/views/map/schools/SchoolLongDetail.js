@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import schoolService from "../../../services/schoolService";
 
 import SchoolCard from "./components/SchoolCard";
@@ -10,18 +10,6 @@ class SchoolLongDetail extends Component {
     loading: true,
     redirect: false
   };
-
-  // setRedirect = () => {
-  //   this.setState({
-  //     redirect: true
-  //   });
-  // };
-
-  // renderRedirect = () => {
-  //   if (this.state.redirect) {
-  //     return <Redirect to="/" />;
-  //   }
-  // };
 
   async componentDidMount() {
     const {
@@ -48,15 +36,7 @@ class SchoolLongDetail extends Component {
     schoolService
       .deleteSchool(params.id)
       .then(() => {
-        this.props.history.push("/schools"); // !!!
-      })
-      .then(() => {
-        this.setState({
-          redirect: true
-        });
-      })
-      .then(() => {
-        return <Redirect to="/" />;
+        this.props.history.push("/");
       })
       .catch(err => {
         console.log(err);
@@ -74,19 +54,8 @@ class SchoolLongDetail extends Component {
             <SchoolCard school={school} />
             <Link to={`/admin/schools/${school._id}/edit`}>Edit school</Link>
             {/* button only for admin */}
-
-            {/* <div>
-              {this.renderRedirect()}
-              <button onClick={this.setRedirect}>Redirect</button>
-            </div> */}
-
             <button onClick={() => this.deleteSchool()}>Delete school</button>
             {/* only for admin */}
-            {/* if (this.state.redirect){
-        return <Redirect
-            to="/FinishedPaying"
-            userInput={this.state.userInput}
-            />; */}
           </div>
         )}
       </>

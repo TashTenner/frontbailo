@@ -13,10 +13,7 @@ const SchoolCard = props => {
         address,
         phoneNr,
         mail,
-        website,
-        nameOrganizer,
-        mainPhoto,
-        rating
+        website
       }
     }
   } = props;
@@ -35,12 +32,12 @@ const SchoolCard = props => {
       <p>{mail}</p>
       <label htmlFor="">website:</label>
       <p>{website}</p>
-      <label htmlFor="">nameOrganizer:</label>
+      {/* <label htmlFor="">nameOrganizer:</label>
       <p>{nameOrganizer}</p>
       <label htmlFor="">mainPhoto:</label>
       <p>{mainPhoto}</p>
       <label htmlFor="">rating:</label>
-      <p>{rating}</p>
+      <p>{rating}</p> */}
       {/* <Link to={`/admin/schools/${_id}/edit`}>Edit / delete school</Link>
       button only for admin */}
       {/* <button onClick={changeTheme}>change Theme</button> */}
