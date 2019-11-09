@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 
-import { withAuth } from '../../Context/AuthContext';
-
 import venueService from "../../services/venueService";
 import practicaService from "../../services/practicaService";
 import schoolService from "../../services/schoolService";
@@ -72,6 +70,7 @@ class MapHome extends Component {
   };
 
   async componentDidMount() {
+    console.log(this.props);
     try {
       if (this.state.searchBy === 'venues') {
         let listOfSpots = await venueService.getAllVenues();
@@ -118,13 +117,6 @@ class MapHome extends Component {
     );
   }
 
-
-  // async handleDropdownChange(event) {
-  //   console.log(this.state.searchBy);
-  //   await this.setState({ searchBy: event.target.value });
-  //   console.log(this.state.searchBy);
-  // }
-
   handleDropdownChange = (event) => {
     console.log(this.state.searchBy)
     console.log(event.target.value)
@@ -132,35 +124,9 @@ class MapHome extends Component {
       console.log(this.state.searchBy);
     });
 
-    // console.log(event.target.value)
-    // console.log(this.state.searchBy)
+    console.log(event.target.value)
+    console.log(this.state.searchBy)
   }
-
-  // renderMap = () => {
-  //   if (this.state.searchBy === 'venues') {
-  //     let listOfSpots = venueService.getAllVenues();
-  //     this.setState({
-  //       listOfSpots
-  //     });
-  //   } else {
-  //     let listOfSpots = schoolService.getAllSchools();
-  //     this.setState({
-  //       listOfSpots
-  //     });
-  //   }
-  // }
-
-  // renderUser = userList => {
-  //   if (userList) {
-  //     return (
-  //       <List
-  //         key={userList.length}
-  //         users={userList.filter(user => user.gender === this.state.gender)}
-  //       />
-  //     );
-  //   } else return null;
-  // };
-
 
   render() {
     const { viewport, popupInfo } = this.state;
@@ -220,7 +186,6 @@ class MapHome extends Component {
               </div>
               <div className="MapHomeOption">
                 <form>
-                  {/* <p>Please select either milongas or tango schools:</p> */}
                   <select id="searchBy" onChange={this.handleDropdownChange} value={this.state.searchBy}>
                     <option value="select">Select an option</option>
                     <option value="venues">milongas</option>
@@ -238,4 +203,4 @@ class MapHome extends Component {
   }
 }
 
-export default withAuth(MapHome);
+export default MapHome;

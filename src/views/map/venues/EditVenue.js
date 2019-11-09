@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import venueService from "../../../services/venueService";
 // updating coordinates might be missing here
+
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mbxGeocoding({
+  accessToken: 'pk.eyJ1IjoidGFzaGJjbiIsImEiOiJjazEyZ2V5ajYwMmZoM2FxeWw0dWlsdzc5In0.HTBQfyb6ItNiZbNcjF6RMw'
+});
+
 export default class EditVenue extends Component {
   constructor(props) {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeAddress = this.onChangeAddress.bind(this);
+    this.onChangeLng = this.onChangeLng.bind(this);
+    this.onChangeLat = this.onChangeLat.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeFrequency = this.onChangeFrequency.bind(this);
     this.onChangeStartTime = this.onChangeStartTime.bind(this);
@@ -19,6 +27,7 @@ export default class EditVenue extends Component {
     this.state = {
       venue: {
         _id: this.props.match.params,
+        geometry: { coordinates: [0, 0] },
         properties: { name: "", address: "", date: "", frequency: "", startTime: "", endTime: "", price: "", phoneNr: "", mail: "", website: "" }
       },
       loading: true
@@ -53,8 +62,8 @@ export default class EditVenue extends Component {
     });
   };
 
-
   onChangeAddress(e) {
+    console.log(e.target.value)
     this.setState({
       venue: {
         ...this.state.venue,
@@ -63,7 +72,69 @@ export default class EditVenue extends Component {
           address: e.target.value
         }
       }
-    });
+    }, () => console.log(this.state));
+    if (this.state.venue.properties.address) {
+      geocodingClient
+        .forwardGeocode({ query: this.state.venue.properties.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+        .send()
+        .then(response => {
+          console.log("hola")
+          const match = response.body;
+          this.setState({
+            venue: {
+              ...this.state.venue,
+              geometry: {
+                ...this.state.venue.geometry,
+                coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+              }
+            }
+          }, () => console.log(this.state.coordinates))
+        });
+    }
+  };
+
+  // handleChangeMapbox = e => {
+  //   this.setState(
+  //     {
+  //       address: e.target.value
+  //     },
+  //     () => console.log(this.state.address));
+  //   if (this.state.address) {
+  //     geocodingClient
+  //       .forwardGeocode({ query: this.state.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+  //       .send()
+  //       .then(response => {
+  //         const match = response.body;
+  //         this.setState({
+  //           coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+  //         }, () => console.log(this.state.coordinates))
+  //       });
+  //   }
+  // }
+
+  onChangeLng(e) {
+    this.setState({
+      venue: {
+        ...this.state.venue,
+        geometry: {
+          ...this.state.venue.geometry,
+          coordinates: [e.target.value, this.state.venue.geometry[1]]
+        }
+      }
+    }, () => console.log(this.state));
+  };
+
+
+  onChangeLat(e) {
+    this.setState({
+      venue: {
+        ...this.state.venue,
+        geometry: {
+          ...this.state.venue.geometry,
+          coordinates: [this.state.venue.geometry[0], e.target.value]
+        }
+      }
+    }, () => console.log(this.state));
   };
 
   onChangeDate(e) {
@@ -159,7 +230,7 @@ export default class EditVenue extends Component {
           website: e.target.value
         }
       }
-    });
+    }, () => console.log(this.state));
   };
 
   onSubmit(e) {
@@ -197,6 +268,24 @@ export default class EditVenue extends Component {
               type="text"
               value={this.state.venue.properties.address}
               onChange={this.onChangeAddress}
+            />
+          </div>
+
+          <div>
+            <label>Lng:</label>
+            <input
+              type="number"
+              value={this.state.venue.geometry.coordinates[0]}
+              onChange={this.onChangeLng}
+            />
+          </div>
+
+          <div>
+            <label>Lat:</label>
+            <input
+              type="number"
+              value={this.state.venue.geometry.coordinates[1]}
+              onChange={this.onChangeLat}
             />
           </div>
 

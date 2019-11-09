@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import withAuth from "../Context/AuthContext";
+import { withAuth } from "../Context/AuthContext";
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
@@ -29,5 +29,5 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
-// export default withAuth(Navbar);
+// export default Navbar;
+export default withAuth(Navbar);

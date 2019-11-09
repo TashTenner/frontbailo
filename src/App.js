@@ -20,7 +20,7 @@ import MenuBailo from "./views/menuBailo/MenuBailo";
 import MapTest from "./views/map/MapTest";
 import GeocodeTest from "./views/map/GeocodeTest";
 
-import { Switch } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import { BrowserRouter as Router } from 'react-router-dom';
 import AnotherTest from "./views/map/AnotherTest";
 
@@ -38,38 +38,38 @@ class App extends Component {
     const { handleLogout } = this.props;
     return (
       <div className="App">
+        <button onClick={handleLogout}>logout</button>
         <Router>
-          <button onClick={handleLogout}>logout</button>
-          <AnonRoute component={Navbar} />
+          <Navbar />
           {/* <Navbar /> */}
 
           <Switch>
             <AnonRoute exact path="/login" component={Login} />
             <AnonRoute exact path="/signup" component={Signup} />
-            <PrivateRoute exact path="/private" component={PrivateView} />
+            <AnonRoute exact path="/private" component={PrivateView} />
 
-            <AnonRoute exact path="/" component={MapHome} />
-            <AnonRoute exact path="/mybailo" component={MyBailo} />
-            <AnonRoute exact path="/add" component={AddBailo} />
+            <Route exact path="/" component={MapHome} />
+            <Route exact path="/mybailo" component={MyBailo} />
+            <Route exact path="/add" component={AddBailo} />
             <PrivateRoute exact path="/add/venue" component={AddVenue} />
             <PrivateRoute exact path="/add/practica" component={AddPractica} />
             <PrivateRoute exact path="/add/school" component={AddSchool} />
 
-            <AnonRoute exact path="/venues/:id" component={VenueLongDetail} />
-            <AnonRoute exact path="/practicas/:id" component={PracticaLongDetail} />
-            <AnonRoute exact path="/schools/:id" component={SchoolLongDetail} />
+            <Route exact path="/venues/:id" component={VenueLongDetail} />
+            <Route exact path="/practicas/:id" component={PracticaLongDetail} />
+            <Route exact path="/schools/:id" component={SchoolLongDetail} />
             {/* http://localhost:3000/schools/5dbf226f4465c600177b2bc1 */}
 
             <PrivateRoute exact path="/admin/venues/:id/edit" component={EditVenue} />
             <PrivateRoute exact path="/admin/practicas/:id/edit" component={EditPractica} />
             <PrivateRoute exact path="/admin/schools/:id/edit" component={EditSchool} />
 
-            <AnonRoute exact path="/whatsnext" component={WhatsNext} />
-            <AnonRoute exact path="/menu" component={MenuBailo} />
+            <Route exact path="/whatsnext" component={WhatsNext} />
+            <Route exact path="/menu" component={MenuBailo} />
 
-            <AnonRoute exact path="/test" component={MapTest} />
-            <AnonRoute exact path="/geocodetest" component={GeocodeTest} />
-            <AnonRoute exact path="/anothertest" component={AnotherTest} />
+            <Route exact path="/test" component={MapTest} />
+            <Route exact path="/geocodetest" component={GeocodeTest} />
+            <Route exact path="/anothertest" component={AnotherTest} />
 
           </Switch>
 
