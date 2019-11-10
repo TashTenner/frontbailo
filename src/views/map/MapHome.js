@@ -69,35 +69,27 @@ class MapHome extends Component {
     });
   };
 
-  async componentDidMount() {
-    console.log(this.props);
+  async loadMap(type) {
+    // this.setState({ searchBy: event.target.value });
     try {
-      if (this.state.searchBy === 'venues') {
-        let listOfSpots = await venueService.getAllVenues();
-        this.setState({
-          listOfSpots
-        });
-      } else if (this.state.searchBy === 'practicas') {
-        let listOfSpots = await practicaService.getAllPracticas();
-        this.setState({
-          listOfSpots
-        });
+      if (type === 'venues') {
+        return await venueService.getAllVenues();
+      } else if (type === 'practicas') {
+        return await practicaService.getAllPracticas();
       } else {
-        let listOfSpots = await schoolService.getAllSchools();
-        this.setState({
-          listOfSpots
-        });
+        return await schoolService.getAllSchools();
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.state.value > prevState.value) {
-  //     this.foo();  
-  //   }
-  // }
+  async componentDidMount() {
+    const test2 = await this.loadMap(this.state.searchBy);
+    this.setState({
+      listOfSpots: test2
+    })
+  }
 
   renderPopup() {
     const { popupInfo, searchBy } = this.state;
@@ -117,15 +109,13 @@ class MapHome extends Component {
     );
   }
 
-  handleDropdownChange = (event) => {
-    console.log(this.state.searchBy)
-    console.log(event.target.value)
-    this.setState({ searchBy: event.target.value }, function () {
-      console.log(this.state.searchBy);
-    });
-
-    console.log(event.target.value)
-    console.log(this.state.searchBy)
+  handleDropdownChange = async (event) => {
+    const searchBy = event.target.value;
+    const test = await this.loadMap(searchBy);
+    this.setState({
+      searchBy,
+      listOfSpots: test
+    })
   }
 
   render() {
