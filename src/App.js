@@ -49,7 +49,8 @@ class App extends Component {
             <AnonRoute exact path="/private" component={PrivateView} />
 
             <Route exact path="/" component={MapHome} />
-            <Route exact path="/mybailo" component={MyBailo} />
+            <PrivateRoute exact path="/mybailo" component={MyBailo} />
+
             <Route exact path="/add" component={AddBailo} />
             <PrivateRoute exact path="/add/venue" component={AddVenue} />
             <PrivateRoute exact path="/add/practica" component={AddPractica} />

@@ -1,9 +1,12 @@
 import React, { Component } from "react";
+import { withAuth } from '../../Context/AuthContext';
+
 import MyBailoProfile from "./components/MyBailoProfile";
 import MyBailoFollow from "./components/MyBailoFollow";
 
 class MyBailo extends Component {
   render() {
+    // const { userId } = this.props.match.params;
     return (
       <div>
         <MyBailoProfile />
@@ -13,4 +16,4 @@ class MyBailo extends Component {
   }
 }
 
-export default MyBailo;
+export default withAuth(MyBailo);

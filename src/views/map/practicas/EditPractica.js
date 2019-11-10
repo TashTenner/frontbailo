@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { withAuth } from '../../../Context/AuthContext';
+
 import practicaService from "../../../services/practicaService";
 // updating coordinates might be missing here
-export default class EditPractica extends Component {
+class EditPractica extends Component {
   constructor(props) {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
@@ -281,3 +283,5 @@ export default class EditPractica extends Component {
     )
   }
 }
+
+export default withAuth(EditPractica);

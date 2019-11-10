@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { withAuth } from '../../../Context/AuthContext';
+
 import schoolService from "../../../services/schoolService";
 // updating coordinates might be missing here
-export default class EditSchool extends Component {
+
+class EditSchool extends Component {
   constructor(props) {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
@@ -171,3 +174,5 @@ export default class EditSchool extends Component {
     )
   }
 }
+
+export default withAuth(EditSchool);
