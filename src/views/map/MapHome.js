@@ -70,7 +70,6 @@ class MapHome extends Component {
   };
 
   async loadMap(type) {
-    // this.setState({ searchBy: event.target.value });
     try {
       if (type === 'venues') {
         return await venueService.getAllVenues();
@@ -183,7 +182,6 @@ class MapHome extends Component {
                     <option value="schools">schools</option>
                   </select>
                 </form>
-                {/* {this.renderMap()} */}
               </div>
             </div>
           </div>
