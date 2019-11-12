@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { withAuth } from '../../../Context/AuthContext';
+
 import venueService from "../../../services/venueService";
 // updating coordinates might be missing here
 
@@ -7,7 +9,7 @@ const geocodingClient = mbxGeocoding({
   accessToken: 'pk.eyJ1IjoidGFzaGJjbiIsImEiOiJjazEyZ2V5ajYwMmZoM2FxeWw0dWlsdzc5In0.HTBQfyb6ItNiZbNcjF6RMw'
 });
 
-export default class EditVenue extends Component {
+class EditVenue extends Component {
   constructor(props) {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
@@ -370,3 +372,5 @@ export default class EditVenue extends Component {
     )
   }
 }
+
+export default withAuth(EditVenue);
