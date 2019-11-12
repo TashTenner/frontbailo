@@ -1,9 +1,18 @@
-import React, { Component } from "react";
+import React from "react";
+import { withAuth } from '../../../Context/AuthContext';
+// import userService from "../../../services/userService";
 
-class MyBailoProfile extends Component {
-  render() {
-    return <div>MyBailoProfile</div>;
-  }
+const MyBailoProfile = (props) => {
+  const { user } = props;
+
+  return (
+    <div>
+      <p>
+        user: {user.username}
+      </p>
+    </div>
+  );
+
 }
 
-export default MyBailoProfile;
+export default withAuth(MyBailoProfile);

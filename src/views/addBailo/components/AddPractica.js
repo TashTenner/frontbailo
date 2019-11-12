@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { withAuth } from '../../../Context/AuthContext';
+
 import practicaService from "../../../services/practicaService";
 
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
@@ -6,7 +8,7 @@ const geocodingClient = mbxGeocoding({
   accessToken: 'pk.eyJ1IjoidGFzaGJjbiIsImEiOiJjazEyZ2V5ajYwMmZoM2FxeWw0dWlsdzc5In0.HTBQfyb6ItNiZbNcjF6RMw'
 });
 
-export default class AddPractica extends Component {
+class AddPractica extends Component {
   state = {
     practica: {}
   };
@@ -262,3 +264,5 @@ export default class AddPractica extends Component {
     );
   }
 }
+
+export default withAuth(AddPractica);

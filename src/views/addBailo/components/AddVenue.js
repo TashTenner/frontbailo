@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { withAuth } from '../../../Context/AuthContext';
+
 import venueService from "../../../services/venueService";
 
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
@@ -6,7 +8,7 @@ const geocodingClient = mbxGeocoding({
   accessToken: 'pk.eyJ1IjoidGFzaGJjbiIsImEiOiJjazEyZ2V5ajYwMmZoM2FxeWw0dWlsdzc5In0.HTBQfyb6ItNiZbNcjF6RMw'
 });
 
-export default class AddVenue extends Component {
+class AddVenue extends Component {
   state = {
     venue: {}
   };
@@ -262,3 +264,5 @@ export default class AddVenue extends Component {
     );
   }
 }
+
+export default withAuth(AddVenue);

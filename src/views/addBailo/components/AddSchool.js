@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { withAuth } from '../../../Context/AuthContext';
+
 import schoolService from "../../../services/schoolService";
 
-export default class AddSchool extends Component {
+class AddSchool extends Component {
   state = {
     school: {}
   };
@@ -220,3 +222,5 @@ export default class AddSchool extends Component {
     );
   }
 }
+
+export default withAuth(AddSchool);
