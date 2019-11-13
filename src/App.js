@@ -28,6 +28,9 @@ import { withAuth } from './Context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import AnonRoute from './components/AnonRoute';
 
+import MapTest from "./views/map/MapTest";
+import MapTestTwo from "./views/map/MapTestTwo";
+import MapTestThree from "./views/map/MapTestThree";
 
 class App extends Component {
   render() {
@@ -59,6 +62,10 @@ class App extends Component {
 
             <Route exact path="/whatsnext" component={WhatsNext} />
             <Route exact path="/menu" component={MenuBailo} />
+
+            <Route exact path="/maptest" component={MapTest} />
+            <Route exact path="/maptesttwo" component={MapTestTwo} />
+            <Route exact path="/maptestthree" component={MapTestThree} />
 
           </Switch>
 

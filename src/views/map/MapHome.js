@@ -9,8 +9,10 @@ import MapGL, {
   Marker,
   Popup,
   GeolocateControl,
-} from "react-map-gl";
+} from "react-map-gl"; // @urbica/react-map-gl
 import Geocoder from "react-map-gl-geocoder";
+
+// import Cluster from "@urbica/react-map-gl-cluster";
 
 import MapPin from "./components/MapPin";
 import VenueInfo from "./components/VenueInfo";
@@ -60,6 +62,7 @@ class MapHome extends Component {
       viewport: { ...this.state.viewport, ...viewport }
     })
   }
+
   handleGeocoderViewportChange = viewport => {
     const geocoderDefaultOverrides = { transitionDuration: 1000 };
 
@@ -119,6 +122,22 @@ class MapHome extends Component {
 
   render() {
     const { viewport, popupInfo } = this.state;
+
+    // const markerStyle = {
+    //   width: "20px",
+    //   height: "20px",
+    //   color: "rgb(255,255,255)",
+    //   background: "green",
+    //   borderRadius: "5px",
+    //   textAlign: "center"
+    // };
+
+    // const ClusterMarker = ({ longitude, latitude, pointCount }) => (
+    //   <Marker longitude={longitude} latitude={latitude}>
+    //     <div style={markerStyle}>{pointCount}</div>
+    //   </Marker>
+    // );
+
     return (
       <div>
         <MapGL
@@ -126,6 +145,7 @@ class MapHome extends Component {
           {...viewport}
           onViewportChange={this.handleViewportChange}
           mapStyle="mapbox://styles/mapbox/light-v10"
+          // accessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         >
           <GeolocateControl
@@ -134,6 +154,25 @@ class MapHome extends Component {
             trackUserLocation={true}
           />
           {/* https://github.com/uber/react-map-gl/issues/921 */}
+
+          {/* <Cluster
+            radius={40}
+            extent={512}
+            nodeSize={64}
+            component={ClusterMarker}
+          >
+            {this.state.listOfSpots.length > 0 &&
+              this.state.listOfSpots.map(venue => (
+                <Marker
+                  key={venue._id}
+                  longitude={venue.geometry.coordinates[0]}
+                  latitude={venue.geometry.coordinates[1]}
+                >
+                  <div style={markerStyle} />
+                </Marker>
+              ))}
+          </Cluster> */}
+
           <div>
             {this.state.listOfSpots.length > 0 &&
               this.state.listOfSpots.map(venue => {
