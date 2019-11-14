@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import venueService from "../../../services/venueService";
+import { withAuth } from '../../../Context/AuthContext';
+
 
 import VenueCard from "./components/VenueCard";
 
@@ -45,6 +47,8 @@ class VenueLongDetail extends Component {
 
   render() {
     const { venue, loading } = this.state;
+    const { user } = this.props;
+
     console.log("render");
     return (
       <>
@@ -52,15 +56,13 @@ class VenueLongDetail extends Component {
         {!loading && (
           <div>
             <VenueCard venue={venue} />
-            <Link to={`/admin/venues/${venue._id}/edit`}>Edit venue</Link>
-            {/* button only for admin */}
-            <button onClick={() => this.deleteVenue()}>Delete venue</button>
-            {/* only for admin */}
           </div>
         )}
+        {user && (user.roles === "admin") ? <Link to={`/admin/venues/${venue._id}/edit`}>Edit venue</Link> : <div></div>}
+        {user && (user.roles === "admin") ? <button onClick={() => this.deleteVenue()}>Delete venue</button> : <div></div>}
       </>
     );
   }
 }
 
-export default VenueLongDetail;
+export default withAuth(VenueLongDetail);

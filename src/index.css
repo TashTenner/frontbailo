@@ -1,8 +1,13 @@
-@import-normalize;
+/* @import-normalize; */
+
+@font-face {
+  font-family: 'Arciform';
+  src: local('Arciform'), url(./fonts/Arciform.otf) format('truetype');
+}
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+  font-family: "Arciform", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -13,3 +18,4 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+

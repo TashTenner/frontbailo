@@ -13,7 +13,7 @@ import MapGL, {
 
 // import { NavigationControl } from "react-map-gl";
 
-import Cluster from '@urbica/react-map-gl-cluster';
+import Cluster from '@urbica/react-map-gl-cluster'; // "./Cluster"; // '@urbica/react-map-gl-cluster';
 
 import Geocoder from "react-map-gl-geocoder";
 

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styled from 'styled-components';
 
 import venueService from "../../services/venueService";
 import practicaService from "../../services/practicaService";
@@ -16,12 +17,15 @@ import Geocoder from "react-map-gl-geocoder";
 
 import MapPin from "./components/MapPin";
 import VenueInfo from "./components/VenueInfo";
-import InfoBox from "./components/InfoBox";
-// import OptionBar from "./components/OptionBar"
+// import InfoBox from "./components/InfoBox";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "./MapHome.css";
+
+const Select = styled.select`
+  color: white;
+`;
 
 const navStyle = {
   position: "absolute",
@@ -36,6 +40,14 @@ const geolocateStyle = {
   right: 0,
   margin: 10
 };
+
+// const geocoderStyle = {
+//   position: 'absolute',
+//   buttom: 100,
+//   right: 0,
+//   margin: 10,
+//   width: "40px"
+// };
 
 class MapHome extends Component {
   state = {
@@ -98,6 +110,8 @@ class MapHome extends Component {
     return (
       popupInfo && (
         <Popup
+          className="maxWidth"
+          // maxWidth="50px"
           tipSize={5}
           anchor="bottom"
           longitude={popupInfo.geometry.coordinates[0]}
@@ -121,7 +135,7 @@ class MapHome extends Component {
   }
 
   render() {
-    const { viewport, popupInfo } = this.state;
+    const { viewport } = this.state;
 
     // const markerStyle = {
     //   width: "20px",
@@ -199,29 +213,34 @@ class MapHome extends Component {
             {/* <div>
               <OptionBar />
             </div> */}
-            <div className="test">
-              <Geocoder
-                mapRef={this.mapRef}
-                onViewportChange={this.handleGeocoderViewportChange}
-                mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-                position='top-left'
-              />
-              <div>
+            <div>
+              <div /*style={geocoderStyle}*/>
+                <Geocoder
+                  mapRef={this.mapRef}
+                  onViewportChange={this.handleGeocoderViewportChange}
+                  mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+                  position='top-left'
+                />
+              </div>
+              {/* <div>
                 <InfoBox
                   containerComponent={this.props.containerComponent}
                   info={popupInfo}
                 />
-              </div>
+              </div> */}
               <div className="MapHomeOption">
                 <form>
-                  <select id="searchBy" onChange={this.handleDropdownChange} value={this.state.searchBy}>
-                    <option value="select">Select an option</option>
+                  <Select id="searchBy" onChange={this.handleDropdownChange} value={this.state.searchBy}>
+                    {/* <option value="select">Select an option</option> */}
                     <option value="venues">milongas</option>
                     <option value="practicas">practicas</option>
                     <option value="schools">schools</option>
-                  </select>
+                  </Select>
                 </form>
               </div>
+              {/* <div>
+                <Link className="Login" to={"/login"}> Login</Link>
+              </div> */}
             </div>
           </div>
         </MapGL>

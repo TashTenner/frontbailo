@@ -15,12 +15,12 @@ import EditPractica from "./views/map/practicas/EditPractica";
 import EditSchool from "./views/map/schools/EditSchool";
 
 import WhatsNext from "./views/whatsNext/WhatsNext";
-import MenuBailo from "./views/menuBailo/MenuBailo";
+// import MenuBailo from "./views/menuBailo/MenuBailo";
 
 import { Switch, Route } from "react-router-dom";
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import PrivateView from './views/PrivateView';
+// import PrivateView from './views/PrivateView';
 import Login from './views/auth/Login';
 import Signup from './views/auth/Signup';
 import { withAuth } from './Context/AuthContext';
@@ -37,12 +37,12 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          <Navbar />
+          <Navbar className="App-sticky" />
 
           <Switch>
             <AnonRoute exact path="/login" component={Login} />
             <AnonRoute exact path="/signup" component={Signup} />
-            <AnonRoute exact path="/private" component={PrivateView} />
+            {/* <AnonRoute exact path="/private" component={PrivateView} /> */}
 
             <Route exact path="/" component={MapHome} />
             <PrivateRoute exact path="/mybailo" component={MyBailo} />
@@ -61,7 +61,7 @@ class App extends Component {
             <PrivateRoute exact path="/admin/schools/:id/edit" component={EditSchool} />
 
             <Route exact path="/whatsnext" component={WhatsNext} />
-            <Route exact path="/menu" component={MenuBailo} />
+            {/* <Route exact path="/menu" component={MenuBailo} /> */}
 
             <Route exact path="/maptest" component={MapTest} />
             <Route exact path="/maptesttwo" component={MapTestTwo} />
