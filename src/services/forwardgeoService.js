@@ -13,10 +13,6 @@ class ForwardgeoService {
   }
 }
 
-// direccion: resp.data.features[1].place_name,
-// lat: resp.data.features[1].geometry.coordinates[1],
-// long: resp.data.features[1].geometry.coordinates[0]
-
 const forwardgeoService = new ForwardgeoService();
 
 export default forwardgeoService;

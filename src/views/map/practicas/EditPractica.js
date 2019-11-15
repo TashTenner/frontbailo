@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { withAuth } from '../../../Context/AuthContext';
-
 import practicaService from "../../../services/practicaService";
-// updating coordinates might be missing here
+
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mbxGeocoding({
+  accessToken: 'pk.eyJ1IjoidGFzaGJjbiIsImEiOiJjazEyZ2V5ajYwMmZoM2FxeWw0dWlsdzc5In0.HTBQfyb6ItNiZbNcjF6RMw'
+});
+
 class EditPractica extends Component {
   constructor(props) {
     super(props);
     this.onChangeName = this.onChangeName.bind(this);
     this.onChangeAddress = this.onChangeAddress.bind(this);
+    this.onChangeLng = this.onChangeLng.bind(this);
+    this.onChangeLat = this.onChangeLat.bind(this);
     this.onChangeDate = this.onChangeDate.bind(this);
     this.onChangeFrequency = this.onChangeFrequency.bind(this);
     this.onChangeStartTime = this.onChangeStartTime.bind(this);
@@ -21,6 +27,7 @@ class EditPractica extends Component {
     this.state = {
       practica: {
         _id: this.props.match.params,
+        geometry: { coordinates: [0, 0] },
         properties: { name: "", address: "", date: "", frequency: "", startTime: "", endTime: "", price: "", phoneNr: "", mail: "", website: "" }
       },
       loading: true
@@ -47,22 +54,56 @@ class EditPractica extends Component {
     this.setState({
       practica: {
         ...this.state.practica,
-        properties: {
-          ...this.state.practica.properties,
-          name: e.target.value,
-        }
+        properties: { ...this.state.practica.properties, name: e.target.value }
       }
     });
   };
-
 
   onChangeAddress(e) {
     this.setState({
       practica: {
         ...this.state.practica,
-        properties: {
-          ...this.state.practica.properties,
-          address: e.target.value
+        properties: { ...this.state.practica.properties, address: e.target.value }
+      }
+    });
+    if (this.state.practica.properties.address) {
+      geocodingClient
+        .forwardGeocode({ query: this.state.practica.properties.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+        .send()
+        .then(response => {
+          const match = response.body;
+          this.setState({
+            practica: {
+              ...this.state.practica,
+              geometry: {
+                ...this.state.practica.geometry,
+                coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+              }
+            }
+          })
+        });
+    }
+  };
+
+  onChangeLng(e) {
+    this.setState({
+      practica: {
+        ...this.state.practica,
+        geometry: {
+          ...this.state.practica.geometry,
+          coordinates: [e.target.value, this.state.practica.geometry[1]]
+        }
+      }
+    });
+  };
+
+  onChangeLat(e) {
+    this.setState({
+      practica: {
+        ...this.state.practica,
+        geometry: {
+          ...this.state.practica.geometry,
+          coordinates: [this.state.practica.geometry[0], e.target.value]
         }
       }
     });
@@ -72,10 +113,7 @@ class EditPractica extends Component {
     this.setState({
       practica: {
         ...this.state.practica,
-        properties: {
-          ...this.state.practica.properties,
-          date: e.target.value
-        }
+        properties: { ...this.state.practica.properties, date: e.target.value }
       }
     });
   };
@@ -84,10 +122,7 @@ class EditPractica extends Component {
     this.setState({
       practica: {
         ...this.state.practica,
-        properties: {
-          ...this.state.practica.properties,
-          frequency: e.target.value
-        }
+        properties: { ...this.state.practica.properties, frequency: e.target.value }
       }
     });
   };
@@ -96,10 +131,7 @@ class EditPractica extends Component {
     this.setState({
       practica: {
         ...this.state.practica,
-        properties: {
-          ...this.state.practica.properties,
-          startTime: e.target.value
-        }
+        properties: { ...this.state.practica.properties, startTime: e.target.value }
       }
     });
   };
@@ -108,10 +140,7 @@ class EditPractica extends Component {
     this.setState({
       practica: {
         ...this.state.practica,
-        properties: {
-          ...this.state.practica.properties,
-          endTime: e.target.value
-        }
+        properties: { ...this.state.practica.properties, endTime: e.target.value }
       }
     });
   };
@@ -120,10 +149,7 @@ class EditPractica extends Component {
     this.setState({
       practica: {
         ...this.state.practica,
-        properties: {
-          ...this.state.practica.properties,
-          price: e.target.value
-        }
+        properties: { ...this.state.practica.properties, price: e.target.value }
       }
     });
   };
@@ -132,10 +158,7 @@ class EditPractica extends Component {
     this.setState({
       practica: {
         ...this.state.practica,
-        properties: {
-          ...this.state.practica.properties,
-          phoneNr: e.target.value
-        }
+        properties: { ...this.state.practica.properties, phoneNr: e.target.value }
       }
     });
   };
@@ -144,10 +167,7 @@ class EditPractica extends Component {
     this.setState({
       practica: {
         ...this.state.practica,
-        properties: {
-          ...this.state.practica.properties,
-          mail: e.target.value
-        }
+        properties: { ...this.state.practica.properties, mail: e.target.value }
       }
     });
   };
@@ -156,10 +176,7 @@ class EditPractica extends Component {
     this.setState({
       practica: {
         ...this.state.practica,
-        properties: {
-          ...this.state.practica.properties,
-          website: e.target.value
-        }
+        properties: { ...this.state.practica.properties, website: e.target.value }
       }
     });
   };
@@ -167,14 +184,10 @@ class EditPractica extends Component {
   onSubmit(e) {
     e.preventDefault();
     const { practica } = this.state;
-    const {
-      history: { push }
-    } = this.props;
+    const { history: { push } } = this.props;
     practicaService
       .updatePractica(practica)
-      .then(() => {
-        push(`/`);
-      })
+      .then(() => { push(`/`); })
       .catch(() => { });
   }
 
@@ -188,11 +201,9 @@ class EditPractica extends Component {
             <input
               type="text"
               value={this.state.practica.properties.name}
-              // value={this.state.practica.properties.name || ''}
               onChange={this.onChangeName}
             />
           </div>
-
           <div>
             <label>Address:</label>
             <input
@@ -201,7 +212,22 @@ class EditPractica extends Component {
               onChange={this.onChangeAddress}
             />
           </div>
-
+          <div>
+            <label>Lng:</label>
+            <input
+              type="number"
+              value={this.state.practica.geometry.coordinates[0]}
+              onChange={this.onChangeLng}
+            />
+          </div>
+          <div>
+            <label>Lat:</label>
+            <input
+              type="number"
+              value={this.state.practica.geometry.coordinates[1]}
+              onChange={this.onChangeLat}
+            />
+          </div>
           <div>
             <label>Date:</label>
             <input
@@ -210,7 +236,6 @@ class EditPractica extends Component {
               onChange={this.onChangeDate}
             />
           </div>
-
           <div>
             <label>Frequency:</label>
             <input
@@ -219,7 +244,6 @@ class EditPractica extends Component {
               onChange={this.onChangeFrequency}
             />
           </div>
-
           <div>
             <label>Start time:</label>
             <input
@@ -228,7 +252,6 @@ class EditPractica extends Component {
               onChange={this.onChangeStartTime}
             />
           </div>
-
           <div>
             <label>End time:</label>
             <input
@@ -237,7 +260,6 @@ class EditPractica extends Component {
               onChange={this.onChangeEndTime}
             />
           </div>
-
           <div>
             <label>Price:</label>
             <input
@@ -246,7 +268,6 @@ class EditPractica extends Component {
               onChange={this.onChangePrice}
             />
           </div>
-
           <div>
             <label>PhoneNr:</label>
             <input
@@ -255,7 +276,6 @@ class EditPractica extends Component {
               onChange={this.onChangePhoneNr}
             />
           </div>
-
           <div>
             <label>Mail:</label>
             <input
@@ -264,7 +284,6 @@ class EditPractica extends Component {
               onChange={this.onChangeMail}
             />
           </div>
-
           <div>
             <label>Website:</label>
             <input
@@ -273,10 +292,8 @@ class EditPractica extends Component {
               onChange={this.onChangeWebsite}
             />
           </div>
-
           <div>
-            <input type="submit"
-              value="Update" />
+            <input type="submit" value="Update" />
           </div>
         </form>
       </div>

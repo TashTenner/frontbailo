@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { withAuth } from '../../../Context/AuthContext';
-
 import schoolService from "../../../services/schoolService";
+
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mbxGeocoding({
+  accessToken: 'pk.eyJ1IjoidGFzaGJjbiIsImEiOiJjazEyZ2V5ajYwMmZoM2FxeWw0dWlsdzc5In0.HTBQfyb6ItNiZbNcjF6RMw'
+});
 
 class AddSchool extends Component {
   state = {
@@ -11,124 +15,80 @@ class AddSchool extends Component {
   handleChange = event => {
     if (event.target.type === "text") {
       this.setState(
-        {
-          [event.target.name]: event.target.value
-        },
-        () => console.log(this.state)
-      );
-    } /* else if (event.target.type === "number") {
+        { [event.target.name]: event.target.value });
+    } else if (event.target.type === "date") {
       this.setState(
-        {
-          [event.target.name]: parseFloat(event.target.value)
-        },
-        () => console.log(this.state)
-      );
-    } */ else if (event.target.type === "date") {
-      this.setState(
-        {
-          [event.target.name]: new Date(event.target.value).toISOString()
-        },
-        () => console.log(this.state)
-      );
+        { [event.target.name]: new Date(event.target.value).toISOString() });
     } else if (event.target.type === "time") {
       this.setState(
-        {
-          [event.target.name]: event.target.value
-        },
-        () => console.log(this.state)
-      );
+        { [event.target.name]: event.target.value });
     }
   };
 
+  handleChangeMapbox = e => {
+    this.setState(
+      { address: e.target.value }
+    );
+    if (this.state.address) {
+      geocodingClient
+        .forwardGeocode({ query: this.state.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+        .send()
+        .then(response => {
+          const match = response.body;
+          this.setState({
+            coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+          })
+        });
+    }
+  }
+
   handleSubmit = event => {
     event.preventDefault();
-    console.log("hola1");
     const school = {
-      // type: this.state.typeFeature,
       geometry: {
-        // type: this.state.typeGeometry,
         coordinates: [this.state.lng, this.state.lat]
       },
       properties: {
         name: this.state.name,
         address: this.state.address,
-        // mapOption: this.state.mapOption,
         phoneNr: this.state.phoneNr,
         mail: this.state.mail,
         website: this.state.website,
-        // nameOrganizer: this.state.nameOrganizer,
-        // mainPhoto: this.state.mainPhoto,
-        // rating: this.state.rating,
-        // creator: this.state.creator,
-        // status: this.state.status
       }
     };
-    console.log("hola2");
-
     schoolService
-      .createSchool(school)
-      .then(res => console.log(res.data))
-      .then(console.log("hola3"));
+      .createSchool(school);
   };
 
   render() {
     const {
       school: {
-        // typeFeature,
-        // typeGeometry,
-        lng,
-        lat,
         name,
         address,
-        // mapOption,
         phoneNr,
         mail,
         website,
-        // nameOrganizer,
-        // mainPhoto,
-        // rating,
-        // creator,
-        // status
       }
     } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
         <div>New school:</div>
-        <br></br>
-        {/* <label>typeFeature:</label>
-        <input
-          type="text"
-          name="typeFeature"
-          value={typeFeature}
-          onChange={this.handleChange}
-        />
-        <br></br>
-        <label>typeGeometry:</label>
-        <input
-          type="text"
-          name="typeGeometry"
-          value={typeGeometry}
-          onChange={this.handleChange}
-        />
-        <br></br> */}
         <label>lng:</label>
         <input
           type="number"
-          step="0.000001"
+          step="0.00000001"
           name="lng"
-          value={lng}
+          value={this.state.coordinates && this.state.coordinates[0]}
           onChange={this.handleChange}
         />
-        <br></br>
         <label>lat:</label>
         <input
           type="number"
-          step="0.000001"
+          step="0.00000001"
           name="lat"
-          value={lat}
+          value={this.state.coordinates && this.state.coordinates[1]}
           onChange={this.handleChange}
         />
-        <br></br>
         <label>name:</label>
         <input
           type="text"
@@ -136,23 +96,13 @@ class AddSchool extends Component {
           value={name}
           onChange={this.handleChange}
         />
-        <br></br>
         <label>address:</label>
         <input
           type="text"
           name="address"
           value={address}
-          onChange={this.handleChange}
+          onChange={this.handleChangeMapbox}
         />
-        {/* <br></br>
-        <label>mapOption:</label>
-        <input
-          type="text"
-          name="mapOption"
-          value={mapOption}
-          onChange={this.handleChange}
-        /> */}
-        <br></br>
         <label>phoneNr:</label>
         <input
           type="text"
@@ -160,7 +110,6 @@ class AddSchool extends Component {
           value={phoneNr}
           onChange={this.handleChange}
         />
-        <br></br>
         <label>mail:</label>
         <input
           type="text"
@@ -168,7 +117,6 @@ class AddSchool extends Component {
           value={mail}
           onChange={this.handleChange}
         />
-        <br></br>
         <label>website:</label>
         <input
           type="text"
@@ -176,47 +124,6 @@ class AddSchool extends Component {
           value={website}
           onChange={this.handleChange}
         />
-        <br></br>
-        {/* <label>nameOrganizer:</label>
-        <input
-          type="text"
-          name="nameOrganizer"
-          value={nameOrganizer}
-          onChange={this.handleChange}
-        />
-        <br></br>
-        <label>mainPhoto:</label>
-        <input
-          type="text"
-          name="mainPhoto"
-          value={mainPhoto}
-          onChange={this.handleChange}
-        />
-        <br></br>
-        <label>Rating:</label>
-        <input
-          type="number"
-          name="rating"
-          value={rating}
-          onChange={this.handleChange}
-        />
-        <br></br>
-        <label>creator:</label>
-        <input
-          type="text"
-          name="creator"
-          value={creator}
-          onChange={this.handleChange}
-        />
-        <br></br>
-        <label>status:</label>
-        <input
-          type="text"
-          name="status"
-          value={status}
-          onChange={this.handleChange}
-        />
-        <br></br> */}
         <input type="submit" value="Add" />
       </form>
     );

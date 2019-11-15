@@ -1,11 +1,8 @@
 import React, { Component, createContext } from 'react';
 import authService from '../services/authService';
-// import Loading from '../components/Loading/Loading';
 
 const AuthContext = createContext();
-
 const Provider = AuthContext.Provider;
-
 const AuthConsumer = AuthContext.Consumer;
 
 export const withAuth = (Comp) => {
@@ -46,7 +43,6 @@ export default class AuthProvider extends Component {
           isLoading: false,
         })
 
-        console.log('me', user);
       })
       .catch(() => {
         this.setState({

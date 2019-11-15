@@ -1,5 +1,20 @@
 import React, { PureComponent } from "react";
+import styled from 'styled-components';
 import { Link } from "react-router-dom";
+
+const Title = styled(
+  styled(Link)`
+    text-decoration: none;
+    color: #54aa7c;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  `,
+  'active'
+)`
+`;
 
 export default class VenueInfo extends PureComponent {
   render() {
@@ -9,7 +24,7 @@ export default class VenueInfo extends PureComponent {
     return (
       <div>
         <div>
-          <Link to={`/${searchBy}/${info._id}`}>{displayName}</Link>
+          <Title to={`/${searchBy}/${info._id}`}>{displayName}</Title>
         </div>
         <div>
           <div>{info.properties.address}</div>
@@ -18,7 +33,6 @@ export default class VenueInfo extends PureComponent {
           </div>
           <div> {info.properties.price}</div>
         </div>
-        {/* <img width={240} src={info.properties.mainPhoto} alt="" /> */}
       </div>
     );
   }

@@ -17,7 +17,6 @@ class SchoolService {
   }
 
   createSchool(body) {
-    console.log("BODY TO API: ", body);
     return this.axios
       .post("/api/schools/new", body)
       .then(({ data: school }) => school);

@@ -1,5 +1,26 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { withAuth } from '../../Context/AuthContext';
+import styled from 'styled-components';
+import "./Login.css";
+
+const Input = styled.input`
+  cursor: pointer;
+  background: transparent;
+  font-size: 16px;
+  border-radius: 3px;
+  color: ${props => (props.primary ? 'violet' : '#c870c8')};
+  border: ${props =>
+    props.primary ? '2px solid violet' : '2px solid #c870c8'};
+  margin: 0.2em 1em;
+  padding: 0.25em 1em;
+  transition: 0.5s all ease-out;
+  &:hover {
+    background-color: ${props =>
+    props.primary ? 'violet' : '#c870c8'};
+    color: white;
+  }
+`;
 
 class Login extends Component {
   state = {
@@ -24,13 +45,16 @@ class Login extends Component {
   render() {
     const { username, password } = this.state;
     return (
-      <form onSubmit={this.handleFormSubmit}>
-        <label>Username:</label>
-        <input type="text" name="username" value={username} onChange={this.handleChange} />
-        <label>Password:</label>
-        <input type="password" name="password" value={password} onChange={this.handleChange} />
-        <input type="submit" value="Login" />
-      </form>
+      <div className="Login">
+        <form onSubmit={this.handleFormSubmit}>
+          <input type="text" name="username" placeholder="username" value={username} onChange={this.handleChange} />
+          <input type="password" name="password" placeholder="password" value={password} onChange={this.handleChange} />
+          <Input type="submit" value="Login" />
+        </form>
+        <p>Keen to sign up?
+          <Link to={"/signup"}> Sign up</Link>
+        </p>
+      </div>
     )
   }
 }

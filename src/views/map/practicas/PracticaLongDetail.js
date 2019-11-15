@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import practicaService from "../../../services/practicaService";
-
+import { withAuth } from '../../../Context/AuthContext';
 import PracticaCard from "./components/PracticaCard";
 
 class PracticaLongDetail extends Component {
@@ -12,11 +12,7 @@ class PracticaLongDetail extends Component {
   };
 
   async componentDidMount() {
-    const {
-      match: {
-        params: { id }
-      }
-    } = this.props;
+    const { match: { params: { id } } } = this.props;
     try {
       const practica = await practicaService.getPracticaById(id);
       this.setState({
@@ -24,7 +20,6 @@ class PracticaLongDetail extends Component {
         loading: false
       });
     } catch (error) {
-      console.log(error);
       this.setState({
         loading: false
       });
@@ -38,29 +33,25 @@ class PracticaLongDetail extends Component {
       .then(() => {
         this.props.history.push("/");
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => { });
   };
 
   render() {
     const { practica, loading } = this.state;
-    console.log("render");
+    const { user } = this.props;
     return (
       <>
         {loading && <div>Loading...</div>}
         {!loading && (
           <div>
             <PracticaCard practica={practica} />
-            <Link to={`/admin/practicas/${practica._id}/edit`}>Edit practica</Link>
-            {/* button only for admin */}
-            <button onClick={() => this.deletePractica()}>Delete practica</button>
-            {/* only for admin */}
           </div>
         )}
+        {user && (user.roles === "admin") ? <Link to={`/admin/practicas/${practica._id}/edit`}>Edit practica</Link> : <div></div>}
+        {user && (user.roles === "admin") ? <button onClick={() => this.deletePractica()}>Delete practica</button> : <div></div>}
       </>
     );
   }
 }
 
-export default PracticaLongDetail;
+export default withAuth(PracticaLongDetail);

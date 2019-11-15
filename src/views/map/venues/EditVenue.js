@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { withAuth } from '../../../Context/AuthContext';
-
 import venueService from "../../../services/venueService";
-// updating coordinates might be missing here
 
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocodingClient = mbxGeocoding({
@@ -56,31 +54,23 @@ class EditVenue extends Component {
     this.setState({
       venue: {
         ...this.state.venue,
-        properties: {
-          ...this.state.venue.properties,
-          name: e.target.value,
-        }
+        properties: { ...this.state.venue.properties, name: e.target.value }
       }
     });
   };
 
   onChangeAddress(e) {
-    console.log(e.target.value)
     this.setState({
       venue: {
         ...this.state.venue,
-        properties: {
-          ...this.state.venue.properties,
-          address: e.target.value
-        }
+        properties: { ...this.state.venue.properties, address: e.target.value }
       }
-    }, () => console.log(this.state));
+    });
     if (this.state.venue.properties.address) {
       geocodingClient
         .forwardGeocode({ query: this.state.venue.properties.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
         .send()
         .then(response => {
-          console.log("hola")
           const match = response.body;
           this.setState({
             venue: {
@@ -90,29 +80,10 @@ class EditVenue extends Component {
                 coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
               }
             }
-          }, () => console.log(this.state.coordinates))
+          })
         });
     }
   };
-
-  // handleChangeMapbox = e => {
-  //   this.setState(
-  //     {
-  //       address: e.target.value
-  //     },
-  //     () => console.log(this.state.address));
-  //   if (this.state.address) {
-  //     geocodingClient
-  //       .forwardGeocode({ query: this.state.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
-  //       .send()
-  //       .then(response => {
-  //         const match = response.body;
-  //         this.setState({
-  //           coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
-  //         }, () => console.log(this.state.coordinates))
-  //       });
-  //   }
-  // }
 
   onChangeLng(e) {
     this.setState({
@@ -123,9 +94,8 @@ class EditVenue extends Component {
           coordinates: [e.target.value, this.state.venue.geometry[1]]
         }
       }
-    }, () => console.log(this.state));
+    });
   };
-
 
   onChangeLat(e) {
     this.setState({
@@ -136,17 +106,14 @@ class EditVenue extends Component {
           coordinates: [this.state.venue.geometry[0], e.target.value]
         }
       }
-    }, () => console.log(this.state));
+    });
   };
 
   onChangeDate(e) {
     this.setState({
       venue: {
         ...this.state.venue,
-        properties: {
-          ...this.state.venue.properties,
-          date: e.target.value
-        }
+        properties: { ...this.state.venue.properties, date: e.target.value }
       }
     });
   };
@@ -155,10 +122,7 @@ class EditVenue extends Component {
     this.setState({
       venue: {
         ...this.state.venue,
-        properties: {
-          ...this.state.venue.properties,
-          frequency: e.target.value
-        }
+        properties: { ...this.state.venue.properties, frequency: e.target.value }
       }
     });
   };
@@ -167,10 +131,7 @@ class EditVenue extends Component {
     this.setState({
       venue: {
         ...this.state.venue,
-        properties: {
-          ...this.state.venue.properties,
-          startTime: e.target.value
-        }
+        properties: { ...this.state.venue.properties, startTime: e.target.value }
       }
     });
   };
@@ -179,10 +140,7 @@ class EditVenue extends Component {
     this.setState({
       venue: {
         ...this.state.venue,
-        properties: {
-          ...this.state.venue.properties,
-          endTime: e.target.value
-        }
+        properties: { ...this.state.venue.properties, endTime: e.target.value }
       }
     });
   };
@@ -191,10 +149,7 @@ class EditVenue extends Component {
     this.setState({
       venue: {
         ...this.state.venue,
-        properties: {
-          ...this.state.venue.properties,
-          price: e.target.value
-        }
+        properties: { ...this.state.venue.properties, price: e.target.value }
       }
     });
   };
@@ -203,10 +158,7 @@ class EditVenue extends Component {
     this.setState({
       venue: {
         ...this.state.venue,
-        properties: {
-          ...this.state.venue.properties,
-          phoneNr: e.target.value
-        }
+        properties: { ...this.state.venue.properties, phoneNr: e.target.value }
       }
     });
   };
@@ -215,10 +167,7 @@ class EditVenue extends Component {
     this.setState({
       venue: {
         ...this.state.venue,
-        properties: {
-          ...this.state.venue.properties,
-          mail: e.target.value
-        }
+        properties: { ...this.state.venue.properties, mail: e.target.value }
       }
     });
   };
@@ -227,25 +176,18 @@ class EditVenue extends Component {
     this.setState({
       venue: {
         ...this.state.venue,
-        properties: {
-          ...this.state.venue.properties,
-          website: e.target.value
-        }
+        properties: { ...this.state.venue.properties, website: e.target.value }
       }
-    }, () => console.log(this.state));
+    });
   };
 
   onSubmit(e) {
     e.preventDefault();
     const { venue } = this.state;
-    const {
-      history: { push }
-    } = this.props;
+    const { history: { push } } = this.props;
     venueService
       .updateVenue(venue)
-      .then(() => {
-        push(`/`);
-      })
+      .then(() => { push(`/`); })
       .catch(() => { });
   }
 
@@ -259,11 +201,9 @@ class EditVenue extends Component {
             <input
               type="text"
               value={this.state.venue.properties.name}
-              // value={this.state.venue.properties.name || ''}
               onChange={this.onChangeName}
             />
           </div>
-
           <div>
             <label>Address:</label>
             <input
@@ -272,7 +212,6 @@ class EditVenue extends Component {
               onChange={this.onChangeAddress}
             />
           </div>
-
           <div>
             <label>Lng:</label>
             <input
@@ -290,7 +229,6 @@ class EditVenue extends Component {
               onChange={this.onChangeLat}
             />
           </div>
-
           <div>
             <label>Date:</label>
             <input
@@ -299,7 +237,6 @@ class EditVenue extends Component {
               onChange={this.onChangeDate}
             />
           </div>
-
           <div>
             <label>Frequency:</label>
             <input
@@ -308,7 +245,6 @@ class EditVenue extends Component {
               onChange={this.onChangeFrequency}
             />
           </div>
-
           <div>
             <label>Start time:</label>
             <input
@@ -317,7 +253,6 @@ class EditVenue extends Component {
               onChange={this.onChangeStartTime}
             />
           </div>
-
           <div>
             <label>End time:</label>
             <input
@@ -326,7 +261,6 @@ class EditVenue extends Component {
               onChange={this.onChangeEndTime}
             />
           </div>
-
           <div>
             <label>Price:</label>
             <input
@@ -335,7 +269,6 @@ class EditVenue extends Component {
               onChange={this.onChangePrice}
             />
           </div>
-
           <div>
             <label>PhoneNr:</label>
             <input
@@ -344,7 +277,6 @@ class EditVenue extends Component {
               onChange={this.onChangePhoneNr}
             />
           </div>
-
           <div>
             <label>Mail:</label>
             <input
@@ -353,7 +285,6 @@ class EditVenue extends Component {
               onChange={this.onChangeMail}
             />
           </div>
-
           <div>
             <label>Website:</label>
             <input
@@ -362,10 +293,8 @@ class EditVenue extends Component {
               onChange={this.onChangeWebsite}
             />
           </div>
-
           <div>
-            <input type="submit"
-              value="Update" />
+            <input type="submit" value="Update" />
           </div>
         </form>
       </div>

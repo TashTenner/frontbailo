@@ -1,13 +1,20 @@
 import React from "react";
-// import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import "./VenueCard.js";
 
-// import { withTheme } from "../../../Context/ThemeContext";
+const Div = styled.div`
+  line-height: 2em;
+`;
+
+const PGreen = styled.p`
+  color: #54aa7c;
+  font-weight: bold;
+
+`;
 
 const VenueCard = props => {
-  console.log(props);
   const {
     venue: {
-      // _id,
       properties: {
         name,
         address,
@@ -19,47 +26,26 @@ const VenueCard = props => {
         phoneNr,
         mail,
         website,
-        // nameOrganizer,
-        // mainPhoto,
-        // rating
       }
     }
   } = props;
 
-  return (
-    <div>
-      <p>Venue full details:</p>
+  const dateConversion = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(new Date(date));
 
-      <label htmlFor="">name:</label>
-      <p>{name}</p>
-      <label htmlFor="">address:</label>
-      <p>{address}</p>
-      <label htmlFor="">date:</label>
-      <p>{date}</p>
-      <label htmlFor="">frequency:</label>
-      <p>{frequency}</p>
-      <label htmlFor="">startTime:</label>
-      <p>{startTime}</p>
-      <label htmlFor="">endTime:</label>
-      <p>{endTime}</p>
-      <label htmlFor="">price:</label>
-      <p>{price}</p>
-      <label htmlFor="">phoneNr:</label>
-      <p>{phoneNr}</p>
-      <label htmlFor="">mail:</label>
-      <p>{mail}</p>
-      <label htmlFor="">website:</label>
-      <p>{website}</p>
-      {/* <label htmlFor="">nameOrganizer:</label>
-      <p>{nameOrganizer}</p>
-      <label htmlFor="">mainPhoto:</label>
-      <p>{mainPhoto}</p>
-      <label htmlFor="">rating:</label>
-      <p>{rating}</p> */}
-      {/* <Link to={`/admin/venues/${_id}/edit`}>Edit / delete venue</Link>
-      button only for admin */}
-      {/* <button onClick={changeTheme}>change Theme</button> */}
-    </div>
+  return (
+    <Div>
+      <PGreen>Venue details:</PGreen>
+      <p>name: {name}</p>
+      <p>address: {address}</p>
+      <p>date: {dateConversion}</p>
+      <p>frequency: {frequency}</p>
+      <p>startTime: {startTime}</p>
+      <p>endTime: {endTime}</p>
+      <p>price: {price}</p>
+      <p>phoneNr: {phoneNr}</p>
+      <p>mail: {mail}</p>
+      <p>website: {website}</p>
+    </Div>
   );
 };
 
