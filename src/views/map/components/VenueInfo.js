@@ -1,13 +1,6 @@
 import React, { PureComponent } from "react";
 import styled from 'styled-components';
-
 import { Link } from "react-router-dom";
-
-// const Title = styled.a`
-//     text-decoration: none;
-//     color: #54aa7c;
-//     font-weight: bold;
-// `;
 
 const Title = styled(
   styled(Link)`
@@ -40,7 +33,6 @@ export default class VenueInfo extends PureComponent {
           </div>
           <div> {info.properties.price}</div>
         </div>
-        {/* <img width={240} src={info.properties.mainPhoto} alt="" /> */}
       </div>
     );
   }

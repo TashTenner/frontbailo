@@ -13,7 +13,7 @@ const Input = styled.input`
   color: ${props => (props.primary ? 'violet' : '#c870c8')};
   border: ${props =>
     props.primary ? '2px solid violet' : '2px solid #c870c8'};
-  margin: 0 1em;
+  margin: 0.2em 1em;
   padding: 0.25em 1em;
   transition: 0.5s all ease-out;
   &:hover {
@@ -48,9 +48,7 @@ class Signup extends Component {
     return (
       <div className="Signup">
         <form onSubmit={this.handleFormSubmit}>
-          {/* <label>Username:</label> */}
           <input type="text" name="username" placeholder="username" value={username} onChange={this.handleChange} />
-          {/* <label>Password:</label> */}
           <input type="password" name="password" placeholder="password" value={password} onChange={this.handleChange} />
           <Input type="submit" value="Sign up" />
         </form>

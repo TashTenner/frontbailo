@@ -5,14 +5,18 @@
 .MapHomeOption {
   position: absolute;
   top: 55px;
-  /* left: 27px; */
   max-width: 320px;
   background: #4e6ac5;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  /* padding: 12px 24px; */
   margin: 10px;
 }
 
 .maxWidth {
   max-width: 180px;
+  border-radius: 20px;
+}
+
+.mapboxgl-ctrl-geocoder {
+  width: 250px;
+  font-family: Arciform;
 }

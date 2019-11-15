@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { withAuth } from '../../Context/AuthContext';
-
 import MyBailoProfile from "./components/MyBailoProfile";
 import MyBailoFollow from "./components/MyBailoFollow";
 

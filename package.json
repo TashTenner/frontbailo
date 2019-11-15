@@ -3,22 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@deck.gl/core": "^7.3.4",
-    "@deck.gl/layers": "^7.3.4",
     "@mapbox/mapbox-sdk": "^0.8.0",
-    "@turf/helpers": "^6.1.4",
-    "@turf/random": "^6.0.2",
-    "@urbica/react-map-gl": "^1.12.1",
-    "@urbica/react-map-gl-cluster": "^0.2.0",
     "axios": "^0.19.0",
-    "d3": "^5.12.0",
-    "d3-request": "^1.0.6",
-    "deck.gl": "^7.3.3",
     "dotenv": "^8.2.0",
     "mapbox-gl": "^1.4.1",
-    "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
-    "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-map-gl": "^5.0.12",
@@ -28,8 +17,7 @@
     "react-scripts": "3.2.0",
     "reset-css": "^5.0.1",
     "styled-components": "^4.4.1",
-    "supercluster": "^7.0.0",
-    "viewport-mercator-project": "^6.2.2"
+    "supercluster": "^7.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

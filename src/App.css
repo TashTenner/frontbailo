@@ -20,30 +20,3 @@
 .App-link {
   color: #09d3ac;
 }
-
-.App-sticky {
-
-  
-    background-color: white;
-    border-top: 1px solid;
-    position: -webkit-sticky; /* Safari */ 
-    position:fixed;
-    z-index:999999;
-    bottom:0;
-    width:100%;
-    
-      /* ul{
-        display:flex;
-        flex-flow: row nowrap;
-        justify-content: space-around;
-        list-style: none;
-        margin:auto;
-        padding:16px;
-        width:100%;
-        box-sizing: border-box;
-      }
-      .active path{
-        fill:$color-primary;
-     
-  } */
-}

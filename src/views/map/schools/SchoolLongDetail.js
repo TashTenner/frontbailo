@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import schoolService from "../../../services/schoolService";
-
+import { withAuth } from '../../../Context/AuthContext';
 import SchoolCard from "./components/SchoolCard";
 
 class SchoolLongDetail extends Component {
@@ -12,11 +12,7 @@ class SchoolLongDetail extends Component {
   };
 
   async componentDidMount() {
-    const {
-      match: {
-        params: { id }
-      }
-    } = this.props;
+    const { match: { params: { id } } } = this.props;
     try {
       const school = await schoolService.getSchoolById(id);
       this.setState({
@@ -24,7 +20,6 @@ class SchoolLongDetail extends Component {
         loading: false
       });
     } catch (error) {
-      console.log(error);
       this.setState({
         loading: false
       });
@@ -35,32 +30,26 @@ class SchoolLongDetail extends Component {
     const { params } = this.props.match;
     schoolService
       .deleteSchool(params.id)
-      .then(() => {
-        this.props.history.push("/");
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      .then(() => { this.props.history.push("/"); })
+      .catch(err => { });
   };
 
   render() {
     const { school, loading } = this.state;
-    console.log("render");
+    const { user } = this.props;
     return (
       <>
         {loading && <div>Loading...</div>}
         {!loading && (
           <div>
             <SchoolCard school={school} />
-            <Link to={`/admin/schools/${school._id}/edit`}>Edit school</Link>
-            {/* button only for admin */}
-            <button onClick={() => this.deleteSchool()}>Delete school</button>
-            {/* only for admin */}
           </div>
         )}
+        {user && (user.roles === "admin") ? <Link to={`/admin/schools/${school._id}/edit`}>Edit school</Link> : <div></div>}
+        {user && (user.roles === "admin") ? <button onClick={() => this.deleteSchool()}>Delete school</button> : <div></div>}
       </>
     );
   }
 }
 
-export default SchoolLongDetail;
+export default withAuth(SchoolLongDetail);
