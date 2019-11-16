@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withAuth } from '../../../Context/AuthContext';
 import practicaService from "../../../services/practicaService";
+import { FormGroup, Input, Message, InputButton } from "../Form";
 
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocodingClient = mbxGeocoding({
@@ -34,12 +35,12 @@ class AddPractica extends Component {
     );
     if (this.state.address) {
       geocodingClient
-        .forwardGeocode({ query: this.state.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+        .forwardGeocode({ query: this.state.address })
         .send()
         .then(response => {
           const match = response.body;
           this.setState({
-            coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+            coordinates: [match.features[0].geometry.coordinates[0], match.features[0].geometry.coordinates[1]]
           })
         });
     }
@@ -84,96 +85,122 @@ class AddPractica extends Component {
       }
     } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div>New practica:</div>
-        <label>lng:</label>
-        <input
-          type="number"
-          step="0.00000001"
-          name="lng"
-          value={this.state.coordinates && this.state.coordinates[0]}
-          onChange={this.handleChange}
-        />
-        <label>lat:</label>
-        <input
-          type="number"
-          step="0.00000001"
-          name="lat"
-          value={this.state.coordinates && this.state.coordinates[1]}
-          onChange={this.handleChange}
-        />
-        <label>name:</label>
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={this.handleChange}
-        />
-        <label>address:</label>
-        <input
-          type="text"
-          name="address"
-          value={address}
-          onChange={this.handleChangeMapbox}
-        />
-        <label>date:</label>
-        <input
-          type="date"
-          name="date"
-          value={date}
-          onChange={this.handleChange}
-        />
-        <label>frequency:</label>
-        <input
-          type="text"
-          name="frequency"
-          value={frequency}
-          onChange={this.handleChange}
-        />
-        <label>startTime:</label>
-        <input
-          type="time"
-          name="startTime"
-          value={startTime}
-          onChange={this.handleChange}
-        />
-        <label>endTime:</label>
-        <input
-          type="time"
-          name="endTime"
-          value={endTime}
-          onChange={this.handleChange}
-        />
-        <label>price:</label>
-        <input
-          type="text"
-          name="price"
-          value={price}
-          onChange={this.handleChange}
-        />
-        <label>phoneNr:</label>
-        <input
-          type="text"
-          name="phoneNr"
-          value={phoneNr}
-          onChange={this.handleChange}
-        />
-        <label>mail:</label>
-        <input
-          type="text"
-          name="mail"
-          value={mail}
-          onChange={this.handleChange}
-        />
-        <label>website:</label>
-        <input
-          type="text"
-          name="website"
-          value={website}
-          onChange={this.handleChange}
-        />
-        <input type="submit" value="Add" />
-      </form>
+      <FormGroup>
+        <form onSubmit={this.handleSubmit}>
+          <Message>New practica:</Message>
+          <FormGroup>
+            <Input
+              type="text"
+              name="name"
+              placeholder="name"
+              value={name}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="text"
+              name="address"
+              placeholder="address"
+              value={address}
+              onChange={this.handleChangeMapbox}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="number"
+              step="0.00000001"
+              name="lng"
+              placeholder="longitud"
+              value={this.state.coordinates && this.state.coordinates[0]}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="number"
+              step="0.00000001"
+              name="lat"
+              placeholder="latitude"
+              value={this.state.coordinates && this.state.coordinates[1]}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="date"
+              name="date"
+              placeholder="date"
+              value={date}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="text"
+              name="frequency"
+              placeholder="frequency"
+              value={frequency}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="time"
+              name="startTime"
+              placeholder="startTime"
+              value={startTime}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="time"
+              name="endTime"
+              placeholder="endTime"
+              value={endTime}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="text"
+              name="price"
+              placeholder="price"
+              value={price}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="text"
+              name="phoneNr"
+              placeholder="phoneNr"
+              value={phoneNr}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="text"
+              name="mail"
+              placeholder="mail"
+              value={mail}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="text"
+              name="website"
+              placeholder="website"
+              value={website}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <InputButton type="submit" value="Add" />
+        </form>
+      </FormGroup>
     );
   }
 }

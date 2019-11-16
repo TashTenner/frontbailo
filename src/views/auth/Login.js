@@ -51,8 +51,8 @@ class Login extends Component {
           <input type="password" name="password" placeholder="password" value={password} onChange={this.handleChange} />
           <Input type="submit" value="Login" />
         </form>
-        <p>Keen to sign up?
-          <Link to={"/signup"}> Sign up</Link>
+        <p>Keen to
+          <Link to={"/signup"}> sign up?</Link>
         </p>
       </div>
     )

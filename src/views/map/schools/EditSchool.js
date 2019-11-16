@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withAuth } from '../../../Context/AuthContext';
 import schoolService from "../../../services/schoolService";
+import { FormGroup, Input, Message, InputButton } from "../../addBailo/Form";
 
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocodingClient = mbxGeocoding({
@@ -63,7 +64,7 @@ class EditSchool extends Component {
     });
     if (this.state.school.properties.address) {
       geocodingClient
-        .forwardGeocode({ query: this.state.school.properties.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+        .forwardGeocode({ query: this.state.school.properties.address })
         .send()
         .then(response => {
           const match = response.body;
@@ -72,7 +73,7 @@ class EditSchool extends Component {
               ...this.state.school,
               geometry: {
                 ...this.state.school.geometry,
-                coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+                coordinates: [match.features[0].geometry.coordinates[0], match.features[0].geometry.coordinates[1]]
               }
             }
           })
@@ -143,70 +144,63 @@ class EditSchool extends Component {
 
   render() {
     return (
-      <div>
-        <h3 align="center">Update School</h3>
+      <FormGroup>
         <form onSubmit={this.onSubmit}>
-          <div>
-            <label>Name:</label>
-            <input
+          <Message>Update School:</Message>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.school.properties.name}
               onChange={this.onChangeName}
             />
-          </div>
-          <div>
-            <label>Address:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.school.properties.address}
               onChange={this.onChangeAddress}
             />
-          </div>
-          <div>
-            <label>Lng:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="number"
+              step="0.00000001"
               value={this.state.school.geometry.coordinates[0]}
               onChange={this.onChangeLng}
             />
-          </div>
-          <div>
-            <label>Lat:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="number"
+              step="0.00000001"
               value={this.state.school.geometry.coordinates[1]}
               onChange={this.onChangeLat}
             />
-          </div>
-          <div>
-            <label>PhoneNr:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.school.properties.phoneNr}
               onChange={this.onChangePhoneNr}
             />
-          </div>
-          <div>
-            <label>Mail:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.school.properties.mail}
               onChange={this.onChangeMail}
             />
-          </div>
-          <div>
-            <label>Website:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.school.properties.website}
               onChange={this.onChangeWebsite}
             />
-          </div>
-          <div>
-            <input type="submit" value="Update" />
-          </div>
+          </FormGroup>
+          <InputButton type="submit" value="Update" />
         </form>
-      </div>
+      </FormGroup>
     )
   }
 }

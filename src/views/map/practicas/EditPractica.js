@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withAuth } from '../../../Context/AuthContext';
 import practicaService from "../../../services/practicaService";
+import { FormGroup, Input, Message, InputButton } from "../../addBailo/Form";
 
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocodingClient = mbxGeocoding({
@@ -68,7 +69,7 @@ class EditPractica extends Component {
     });
     if (this.state.practica.properties.address) {
       geocodingClient
-        .forwardGeocode({ query: this.state.practica.properties.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+        .forwardGeocode({ query: this.state.practica.properties.address })
         .send()
         .then(response => {
           const match = response.body;
@@ -77,7 +78,7 @@ class EditPractica extends Component {
               ...this.state.practica,
               geometry: {
                 ...this.state.practica.geometry,
-                coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+                coordinates: [match.features[0].geometry.coordinates[0], match.features[0].geometry.coordinates[1]]
               }
             }
           })
@@ -193,110 +194,98 @@ class EditPractica extends Component {
 
   render() {
     return (
-      <div>
-        <h3 align="center">Update Practica</h3>
+      <FormGroup>
         <form onSubmit={this.onSubmit}>
-          <div>
-            <label>Name:</label>
-            <input
+          <Message>Update Practica:</Message>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.practica.properties.name}
               onChange={this.onChangeName}
             />
-          </div>
-          <div>
-            <label>Address:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.practica.properties.address}
               onChange={this.onChangeAddress}
             />
-          </div>
-          <div>
-            <label>Lng:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="number"
+              step="0.00000001"
               value={this.state.practica.geometry.coordinates[0]}
               onChange={this.onChangeLng}
             />
-          </div>
-          <div>
-            <label>Lat:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="number"
+              step="0.00000001"
               value={this.state.practica.geometry.coordinates[1]}
               onChange={this.onChangeLat}
             />
-          </div>
-          <div>
-            <label>Date:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="date"
               value={this.state.practica.properties.date}
               onChange={this.onChangeDate}
             />
-          </div>
-          <div>
-            <label>Frequency:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.practica.properties.frequency}
               onChange={this.onChangeFrequency}
             />
-          </div>
-          <div>
-            <label>Start time:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="time"
               value={this.state.practica.properties.startTime}
               onChange={this.onChangeStartTime}
             />
-          </div>
-          <div>
-            <label>End time:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="time"
               value={this.state.practica.properties.endTime}
               onChange={this.onChangeEndTime}
             />
-          </div>
-          <div>
-            <label>Price:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.practica.properties.price}
               onChange={this.onChangePrice}
             />
-          </div>
-          <div>
-            <label>PhoneNr:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.practica.properties.phoneNr}
               onChange={this.onChangePhoneNr}
             />
-          </div>
-          <div>
-            <label>Mail:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.practica.properties.mail}
               onChange={this.onChangeMail}
             />
-          </div>
-          <div>
-            <label>Website:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.practica.properties.website}
               onChange={this.onChangeWebsite}
             />
-          </div>
-          <div>
-            <input type="submit" value="Update" />
-          </div>
+          </FormGroup>
+          <InputButton type="submit" value="Update" />
         </form>
-      </div>
+      </FormGroup>
     )
   }
 }

@@ -1,10 +1,4 @@
 import React, { Component } from "react";
-import styled from 'styled-components';
-
-import venueService from "../../services/venueService";
-import practicaService from "../../services/practicaService";
-import schoolService from "../../services/schoolService";
-
 import MapGL, {
   NavigationControl,
   Marker,
@@ -12,9 +6,12 @@ import MapGL, {
   GeolocateControl,
 } from "react-map-gl";
 import Geocoder from "react-map-gl-geocoder";
-
 import Supercluster from 'supercluster';
+import styled from 'styled-components';
 
+import venueService from "../../services/venueService";
+import practicaService from "../../services/practicaService";
+import schoolService from "../../services/schoolService";
 import MapPin from "./components/MapPin";
 import VenueInfo from "./components/VenueInfo";
 
@@ -24,6 +21,16 @@ import "./MapHome.css";
 
 const Select = styled.select`
   color: white;
+  position: absolute;
+  top: 55px;
+  max-width: 320px;
+  background: #4e6ac5;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  margin: 10px;
+`;
+
+const Form = styled.form`
+  position: absolute;
 `;
 
 const navStyle = {
@@ -40,25 +47,38 @@ const geolocateStyle = {
   margin: 10
 };
 
+const clusterStyles = {
+  standard: {
+    width: "10px",
+    height: "10px",
+    borderRadius: "50%"
+  },
+  cluster: {
+    width: "20px",
+    height: "20px",
+    backgroundColor: "#4e6ac5",
+    color: "#fff",
+    textAlign: "center",
+    lineHeight: "20px"
+  }
+};
+
 const useClusters = (data, zoom) => {
   if (!data) {
     return [];
   }
-
   const clusterer = new Supercluster({
     minZoom: 0,
     maxZoom: 12,
-    radius: 10
+    radius: 20,
+    // extent: 512,
+    // nodeSize: 64
   });
-
   clusterer.load(data);
-
   if (!clusterer) {
     return [];
   }
-
   const clustered = clusterer.getClusters([-180, -90, 180, 90], Math.floor(zoom));
-
   return clustered;
 };
 
@@ -80,11 +100,34 @@ class MapHome extends Component {
     cluster: []
   };
 
+  async componentDidMount() {
+    const test2 = await this.loadMap(this.state.searchBy);
+    const cluster = useClusters(test2, this.state.viewport.zoom);
+    this.setState({
+      listOfSpots: test2,
+      cluster
+    })
+  }
+
+  async loadMap(type) {
+    try {
+      if (type === 'venues') {
+        return await venueService.getAllVenues();
+      } else if (type === 'practicas') {
+        return await practicaService.getAllPracticas();
+      } else {
+        return await schoolService.getAllSchools();
+      }
+    } catch (error) { }
+  }
+
   mapRef = React.createRef()
 
-  handleViewportChange = viewport => {
+  handleViewportChange = async (viewport) => {
+    const cluster = useClusters(this.state.listOfSpots, viewport.zoom);
     this.setState({
-      viewport: { ...this.state.viewport, ...viewport }
+      viewport: { ...this.state.viewport, ...viewport },
+      cluster
     })
   }
 
@@ -97,29 +140,16 @@ class MapHome extends Component {
     });
   };
 
-  async loadMap(type) {
-    try {
-      if (type === 'venues') {
-        return await venueService.getAllVenues();
-      } else if (type === 'practicas') {
-        return await practicaService.getAllPracticas();
-      } else {
-        return await schoolService.getAllSchools();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  handleDropdownChange = async (event) => {
+    const searchBy = event.target.value;
+    const test = await this.loadMap(searchBy);
+    const cluster = useClusters(test, this.state.viewport.zoom);
 
-  async componentDidMount() {
-    const test2 = await this.loadMap(this.state.searchBy);
-    const cluster = useClusters(test2, this.state.viewport.zoom);
     this.setState({
-      listOfSpots: test2,
+      searchBy,
+      listOfSpots: test,
       cluster
     })
-    console.log(cluster);
-    console.log(test2);
   }
 
   renderPopup() {
@@ -136,41 +166,13 @@ class MapHome extends Component {
           onClose={() => this.setState({ popupInfo: null })}
         >
           <VenueInfo info={popupInfo} searchBy={searchBy} />
-        </Popup>
+        </Popup >
       )
     );
   }
 
-  handleDropdownChange = async (event) => {
-    const searchBy = event.target.value;
-    const test = await this.loadMap(searchBy);
-    this.setState({
-      searchBy,
-      listOfSpots: test
-    })
-  }
-
   render() {
-    const { viewport } = this.state;
-
-    const styles = {
-      standard: {
-        width: "10px",
-        height: "10px",
-        borderRadius: "50%"
-      },
-      ship: {
-        backgroundColor: "#977"
-      },
-      cluster: {
-        width: "20px",
-        height: "20px",
-        backgroundColor: "#227",
-        color: "#fff",
-        textAlign: "center",
-        lineHeight: "20px"
-      }
-    };
+    const { viewport, cluster } = this.state;
 
     return (
       <div>
@@ -181,61 +183,53 @@ class MapHome extends Component {
           mapStyle="mapbox://styles/mapbox/light-v10"
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         >
-          <GeolocateControl
-            style={geolocateStyle}
-            positionOptions={{ enableHighAccuracy: true }}
-            trackUserLocation={true}
-          />
-          {/* https://github.com/uber/react-map-gl/issues/921 */}
           <div>
-            {this.state.cluster.length > 0 &&
-              this.state.cluster.map((p, i) => {
+            {cluster.length > 0 &&
+              cluster.map((p, i) => {
                 const style = {
-                  ...styles.standard,
-                  ...(p.properties.cluster ? styles.cluster : styles.ship)
+                  ...clusterStyles.standard,
+                  ...(p.properties.cluster ? clusterStyles.cluster : "")
                 };
                 return (
                   <Marker
-                    // key={i}
-                    key={p.id || p.properties.SiteId} point={p}
+                    key={i}
+                    point={p}
                     longitude={p.geometry.coordinates[0]}
                     latitude={p.geometry.coordinates[1]}
                   >
-                    <div style={style}>
-                      {p.properties.cluster ? p.properties.point_count : ""}
-                    </div>
-                    {/* <MapPin
-                      size={20}
-                      onClick={() => this.setState({ popupInfo: p })}
-                    /> */}
+                    {(p.properties.cluster) ?
+                      <div style={style}>{p.properties.cluster ? p.properties.point_count : ""}</div>
+                      : ""}
+                    {(!p.properties.cluster) ?
+                      <MapPin size={20} onClick={() => this.setState({ popupInfo: p })} />
+                      : ""}
                   </Marker>
                 );
               })}
             {this.renderPopup()}
-            <div className="nav" style={navStyle}>
+            <div style={navStyle}>
               <NavigationControl
                 onViewportChange={viewport => this.setState({ viewport })}
               />
             </div>
-            <div>
-              <div>
-                <Geocoder
-                  mapRef={this.mapRef}
-                  onViewportChange={this.handleGeocoderViewportChange}
-                  mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-                  position='top-left'
-                />
-              </div>
-              <div className="MapHomeOption">
-                <form>
-                  <Select id="searchBy" onChange={this.handleDropdownChange} value={this.state.searchBy}>
-                    <option value="venues">milongas</option>
-                    <option value="practicas">practicas</option>
-                    <option value="schools">schools</option>
-                  </Select>
-                </form>
-              </div>
-            </div>
+            <GeolocateControl // https://github.com/uber/react-map-gl/issues/921
+              style={geolocateStyle}
+              positionOptions={{ enableHighAccuracy: true }}
+              trackUserLocation={true}
+            />
+            <Geocoder
+              mapRef={this.mapRef}
+              onViewportChange={this.handleGeocoderViewportChange}
+              mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+              position='top-left'
+            />
+            <Form>
+              <Select id="searchBy" onChange={this.handleDropdownChange} value={this.state.searchBy}>
+                <option value="venues">milongas</option>
+                <option value="practicas">practicas</option>
+                <option value="schools">schools</option>
+              </Select>
+            </Form>
           </div>
         </MapGL>
       </div >
@@ -244,21 +238,3 @@ class MapHome extends Component {
 }
 
 export default MapHome;
-
-{/* <Cluster radius={40} extent={512} nodeSize={64} component={ClusterMarker}>
-{this.state.listOfSpots.length > 0 &&
-  this.state.listOfSpots.map((venue, i) => (
-    <Marker
-      key={i}
-      longitude={venue.geometry.coordinates[0]}
-      latitude={venue.geometry.coordinates[1]}
-    >
-      <MapPin
-        size={20}
-        onClick={() => this.setState({ popupInfo: venue })}
-      />
-    </Marker>
-  ))}
-<NavigationControl />
-</Cluster>
-{this.renderPopup()} */}
