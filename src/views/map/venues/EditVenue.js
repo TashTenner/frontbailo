@@ -69,7 +69,7 @@ class EditVenue extends Component {
     });
     if (this.state.venue.properties.address) {
       geocodingClient
-        .forwardGeocode({ query: this.state.venue.properties.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+        .forwardGeocode({ query: this.state.venue.properties.address })
         .send()
         .then(response => {
           const match = response.body;
@@ -78,7 +78,7 @@ class EditVenue extends Component {
               ...this.state.venue,
               geometry: {
                 ...this.state.venue.geometry,
-                coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+                coordinates: [match.features[0].geometry.coordinates[0], match.features[0].geometry.coordinates[1]]
               }
             }
           })
@@ -214,7 +214,7 @@ class EditVenue extends Component {
           <FormGroup>
             <Input
               type="number"
-              step="0.00000001"
+              step="0.00000000001"
               value={this.state.venue.geometry.coordinates[0]}
               onChange={this.onChangeLng}
             />
@@ -222,7 +222,7 @@ class EditVenue extends Component {
           <FormGroup>
             <Input
               type="number"
-              step="0.00000001"
+              step="0.00000000001"
               value={this.state.venue.geometry.coordinates[1]}
               onChange={this.onChangeLat}
             />

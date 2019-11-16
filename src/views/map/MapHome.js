@@ -21,15 +21,16 @@ import "./MapHome.css";
 
 const Select = styled.select`
   color: white;
-`;
-
-const Form = styled.form`
   position: absolute;
   top: 55px;
   max-width: 320px;
   background: #4e6ac5;
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
   margin: 10px;
+`;
+
+const Form = styled.form`
+  position: absolute;
 `;
 
 const navStyle = {
@@ -69,9 +70,9 @@ const useClusters = (data, zoom) => {
   const clusterer = new Supercluster({
     minZoom: 0,
     maxZoom: 12,
-    radius: 40,
-    extent: 512,
-    nodeSize: 64
+    radius: 20,
+    // extent: 512,
+    // nodeSize: 64
   });
   clusterer.load(data);
   if (!clusterer) {
@@ -122,9 +123,11 @@ class MapHome extends Component {
 
   mapRef = React.createRef()
 
-  handleViewportChange = viewport => {
+  handleViewportChange = async (viewport) => {
+    const cluster = useClusters(this.state.listOfSpots, viewport.zoom);
     this.setState({
-      viewport: { ...this.state.viewport, ...viewport }
+      viewport: { ...this.state.viewport, ...viewport },
+      cluster
     })
   }
 
@@ -141,6 +144,7 @@ class MapHome extends Component {
     const searchBy = event.target.value;
     const test = await this.loadMap(searchBy);
     const cluster = useClusters(test, this.state.viewport.zoom);
+
     this.setState({
       searchBy,
       listOfSpots: test,
@@ -181,15 +185,15 @@ class MapHome extends Component {
         >
           <div>
             {cluster.length > 0 &&
-              cluster.map((p) => {
+              cluster.map((p, i) => {
                 const style = {
                   ...clusterStyles.standard,
                   ...(p.properties.cluster ? clusterStyles.cluster : "")
                 };
                 return (
                   <Marker
-                    // key={i}
-                    key={p.id || p.properties.SiteId} point={p}
+                    key={i}
+                    point={p}
                     longitude={p.geometry.coordinates[0]}
                     latitude={p.geometry.coordinates[1]}
                   >

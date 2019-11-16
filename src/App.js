@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Switch, Route, Redirect, BrowserRouter as Router } from "react-router-dom";
 import { withAuth } from './Context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import AnonRoute from './components/AnonRoute';
@@ -21,6 +20,7 @@ import EditVenue from "./views/map/venues/EditVenue";
 import EditPractica from "./views/map/practicas/EditPractica";
 import EditSchool from "./views/map/schools/EditSchool";
 import WhatsNext from "./views/whatsNext/WhatsNext";
+import ErrorPage from "./views/ErrorPage";
 
 import "./App.css";
 
@@ -29,7 +29,7 @@ class App extends Component {
     return (
       <div className="App">
         <Router>
-          <Navbar className="App-sticky" />
+          <Navbar />
           <Switch>
             <AnonRoute exact path="/login" component={Login} />
             <AnonRoute exact path="/signup" component={Signup} />
@@ -51,6 +51,9 @@ class App extends Component {
             <PrivateRoute exact path="/admin/schools/:id/edit" component={EditSchool} />
 
             <Route exact path="/whatsnext" component={WhatsNext} />
+
+            <Route path="/404" component={ErrorPage} />
+            <Redirect to="/404" />
           </Switch>
         </Router>
       </div>

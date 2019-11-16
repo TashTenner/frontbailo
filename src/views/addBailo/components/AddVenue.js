@@ -35,12 +35,15 @@ class AddVenue extends Component {
     );
     if (this.state.address) {
       geocodingClient
-        .forwardGeocode({ query: this.state.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+        .forwardGeocode({
+          query: this.state.address
+        })
         .send()
         .then(response => {
           const match = response.body;
+          console.log(match.features[0].geometry.coordinates[0])
           this.setState({
-            coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+            coordinates: [match.features[0].geometry.coordinates[0], match.features[0].geometry.coordinates[1]]
           })
         });
     }
@@ -109,7 +112,7 @@ class AddVenue extends Component {
           <FormGroup>
             <Input
               type="number"
-              step="0.00000001"
+              step="0.00000000001"
               name="lng"
               placeholder="longitud"
               value={this.state.coordinates && this.state.coordinates[0]}
@@ -119,7 +122,7 @@ class AddVenue extends Component {
           <FormGroup>
             <Input
               type="number"
-              step="0.00000001"
+              step="0.00000000001"
               name="lat"
               placeholder="latitude"
               value={this.state.coordinates && this.state.coordinates[1]}

@@ -64,7 +64,7 @@ class EditSchool extends Component {
     });
     if (this.state.school.properties.address) {
       geocodingClient
-        .forwardGeocode({ query: this.state.school.properties.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+        .forwardGeocode({ query: this.state.school.properties.address })
         .send()
         .then(response => {
           const match = response.body;
@@ -73,7 +73,7 @@ class EditSchool extends Component {
               ...this.state.school,
               geometry: {
                 ...this.state.school.geometry,
-                coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+                coordinates: [match.features[0].geometry.coordinates[0], match.features[0].geometry.coordinates[1]]
               }
             }
           })

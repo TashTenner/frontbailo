@@ -69,7 +69,7 @@ class EditPractica extends Component {
     });
     if (this.state.practica.properties.address) {
       geocodingClient
-        .forwardGeocode({ query: this.state.practica.properties.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+        .forwardGeocode({ query: this.state.practica.properties.address })
         .send()
         .then(response => {
           const match = response.body;
@@ -78,7 +78,7 @@ class EditPractica extends Component {
               ...this.state.practica,
               geometry: {
                 ...this.state.practica.geometry,
-                coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+                coordinates: [match.features[0].geometry.coordinates[0], match.features[0].geometry.coordinates[1]]
               }
             }
           })

@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const FormGroup = styled.div`
 	color: palevioletred;
-    display: block;
 	width: 300px;
 	margin: 5px auto;
 `;
@@ -15,7 +14,7 @@ export const Input = styled.input`
 	border-radius: 3px;
 	width: 100%;
   margin-bottom: 0.5em;
-  &::-webkit-input-placeholder {
+  &::placeholder {
     color: white;
   }
 `;
@@ -24,7 +23,7 @@ export const Message = styled.div`
   margin-bottom: 0.5em;
   margin-top: 0.5em;
 	color: black;
-    display: block;
+  display: block;
 `;
 
 export const InputButton = styled.input`

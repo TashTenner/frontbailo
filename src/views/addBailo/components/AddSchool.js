@@ -32,12 +32,12 @@ class AddSchool extends Component {
     );
     if (this.state.address) {
       geocodingClient
-        .forwardGeocode({ query: this.state.address, autocomplete: true, types: ["country", "region", "postcode", "district", "place", "locality", "neighborhood", "address", "poi", "poi.landmark"] })
+        .forwardGeocode({ query: this.state.address })
         .send()
         .then(response => {
           const match = response.body;
           this.setState({
-            coordinates: [match.features[1].geometry.coordinates[0], match.features[1].geometry.coordinates[1]]
+            coordinates: [match.features[0].geometry.coordinates[0], match.features[0].geometry.coordinates[1]]
           })
         });
     }
