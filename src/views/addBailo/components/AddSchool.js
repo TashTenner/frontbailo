@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withAuth } from '../../../Context/AuthContext';
 import schoolService from "../../../services/schoolService";
+import { FormGroup, Input, Message, InputButton } from "../Form";
 
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocodingClient = mbxGeocoding({
@@ -71,61 +72,77 @@ class AddSchool extends Component {
       }
     } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div>New school:</div>
-        <label>lng:</label>
-        <input
-          type="number"
-          step="0.00000001"
-          name="lng"
-          value={this.state.coordinates && this.state.coordinates[0]}
-          onChange={this.handleChange}
-        />
-        <label>lat:</label>
-        <input
-          type="number"
-          step="0.00000001"
-          name="lat"
-          value={this.state.coordinates && this.state.coordinates[1]}
-          onChange={this.handleChange}
-        />
-        <label>name:</label>
-        <input
-          type="text"
-          name="name"
-          value={name}
-          onChange={this.handleChange}
-        />
-        <label>address:</label>
-        <input
-          type="text"
-          name="address"
-          value={address}
-          onChange={this.handleChangeMapbox}
-        />
-        <label>phoneNr:</label>
-        <input
-          type="text"
-          name="phoneNr"
-          value={phoneNr}
-          onChange={this.handleChange}
-        />
-        <label>mail:</label>
-        <input
-          type="text"
-          name="mail"
-          value={mail}
-          onChange={this.handleChange}
-        />
-        <label>website:</label>
-        <input
-          type="text"
-          name="website"
-          value={website}
-          onChange={this.handleChange}
-        />
-        <input type="submit" value="Add" />
-      </form>
+      <FormGroup>
+        <form onSubmit={this.handleSubmit}>
+          <Message>New school:</Message>
+          <FormGroup>
+            <Input
+              type="text"
+              name="name"
+              placeholder="name"
+              value={name}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="text"
+              name="address"
+              placeholder="address"
+              value={address}
+              onChange={this.handleChangeMapbox}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="number"
+              step="0.00000001"
+              name="lng"
+              placeholder="longitud"
+              value={this.state.coordinates && this.state.coordinates[0]}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="number"
+              step="0.00000001"
+              name="lat"
+              placeholder="latitude"
+              value={this.state.coordinates && this.state.coordinates[1]}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="text"
+              name="phoneNr"
+              placeholder="phoneNr"
+              value={phoneNr}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="text"
+              name="mail"
+              placeholder="mail"
+              value={mail}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Input
+              type="text"
+              name="website"
+              placeholder="website"
+              value={website}
+              onChange={this.handleChange}
+            />
+          </FormGroup>
+          <InputButton type="submit" value="Add" />
+        </form>
+      </FormGroup>
     );
   }
 }

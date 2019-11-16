@@ -140,9 +140,11 @@ class MapHome extends Component {
   handleDropdownChange = async (event) => {
     const searchBy = event.target.value;
     const test = await this.loadMap(searchBy);
+    const cluster = useClusters(test, this.state.viewport.zoom);
     this.setState({
       searchBy,
-      listOfSpots: test
+      listOfSpots: test,
+      cluster
     })
   }
 

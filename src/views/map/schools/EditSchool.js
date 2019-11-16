@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withAuth } from '../../../Context/AuthContext';
 import schoolService from "../../../services/schoolService";
+import { FormGroup, Input, Message, InputButton } from "../../addBailo/Form";
 
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocodingClient = mbxGeocoding({
@@ -143,70 +144,63 @@ class EditSchool extends Component {
 
   render() {
     return (
-      <div>
-        <h3 align="center">Update School</h3>
+      <FormGroup>
         <form onSubmit={this.onSubmit}>
-          <div>
-            <label>Name:</label>
-            <input
+          <Message>Update School:</Message>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.school.properties.name}
               onChange={this.onChangeName}
             />
-          </div>
-          <div>
-            <label>Address:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.school.properties.address}
               onChange={this.onChangeAddress}
             />
-          </div>
-          <div>
-            <label>Lng:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="number"
+              step="0.00000001"
               value={this.state.school.geometry.coordinates[0]}
               onChange={this.onChangeLng}
             />
-          </div>
-          <div>
-            <label>Lat:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="number"
+              step="0.00000001"
               value={this.state.school.geometry.coordinates[1]}
               onChange={this.onChangeLat}
             />
-          </div>
-          <div>
-            <label>PhoneNr:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.school.properties.phoneNr}
               onChange={this.onChangePhoneNr}
             />
-          </div>
-          <div>
-            <label>Mail:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.school.properties.mail}
               onChange={this.onChangeMail}
             />
-          </div>
-          <div>
-            <label>Website:</label>
-            <input
+          </FormGroup>
+          <FormGroup>
+            <Input
               type="text"
               value={this.state.school.properties.website}
               onChange={this.onChangeWebsite}
             />
-          </div>
-          <div>
-            <input type="submit" value="Update" />
-          </div>
+          </FormGroup>
+          <InputButton type="submit" value="Update" />
         </form>
-      </div>
+      </FormGroup>
     )
   }
 }
