@@ -35,13 +35,10 @@ class AddVenue extends Component {
     );
     if (this.state.address) {
       geocodingClient
-        .forwardGeocode({
-          query: this.state.address
-        })
+        .forwardGeocode({ query: this.state.address })
         .send()
         .then(response => {
           const match = response.body;
-          console.log(match.features[0].geometry.coordinates[0])
           this.setState({
             coordinates: [match.features[0].geometry.coordinates[0], match.features[0].geometry.coordinates[1]]
           })
@@ -51,6 +48,7 @@ class AddVenue extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    const { history: { push } } = this.props;
     const venue = {
       geometry: {
         coordinates: [this.state.coordinates[0], this.state.coordinates[1]]
@@ -69,7 +67,8 @@ class AddVenue extends Component {
       }
     };
     venueService
-      .createVenue(venue);
+      .createVenue(venue)
+      .then(() => { push(`/`); })
   };
 
   render() {

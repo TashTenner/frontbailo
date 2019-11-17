@@ -48,6 +48,7 @@ class AddPractica extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    const { history: { push } } = this.props;
     const practica = {
       geometry: {
         coordinates: [this.state.coordinates[0], this.state.coordinates[1]]
@@ -66,7 +67,8 @@ class AddPractica extends Component {
       }
     };
     practicaService
-      .createPractica(practica);
+      .createPractica(practica)
+      .then(() => { push(`/`); })
   };
 
   render() {
