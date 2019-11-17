@@ -17,6 +17,9 @@ class AddSchool extends Component {
     if (event.target.type === "text") {
       this.setState(
         { [event.target.name]: event.target.value });
+    } else if (event.target.type === "number") {
+      this.setState(
+        { [event.target.name]: parseFloat(event.target.value) });
     } else if (event.target.type === "date") {
       this.setState(
         { [event.target.name]: new Date(event.target.value).toISOString() });
@@ -45,9 +48,10 @@ class AddSchool extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    const { history: { push } } = this.props;
     const school = {
       geometry: {
-        coordinates: [this.state.lng, this.state.lat]
+        coordinates: [this.state.coordinates[0], this.state.coordinates[1]]
       },
       properties: {
         name: this.state.name,
@@ -58,7 +62,8 @@ class AddSchool extends Component {
       }
     };
     schoolService
-      .createSchool(school);
+      .createSchool(school)
+      .then(() => { push(`/`); })
   };
 
   render() {

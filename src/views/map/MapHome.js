@@ -69,10 +69,10 @@ const useClusters = (data, zoom) => {
   }
   const clusterer = new Supercluster({
     minZoom: 0,
-    maxZoom: 12,
-    radius: 20,
-    // extent: 512,
-    // nodeSize: 64
+    maxZoom: 16,
+    radius: 40,
+    extent: 512,
+    nodeSize: 64
   });
   clusterer.load(data);
   if (!clusterer) {
@@ -128,12 +128,19 @@ class MapHome extends Component {
     this.setState({
       viewport: { ...this.state.viewport, ...viewport },
       cluster
-    })
+    });
+  }
+
+  handleViewportChangeGeo = viewport => {
+    const newZoom = viewport.zoom = 10;
+    return this.handleViewportChange({
+      ...viewport,
+      ...newZoom
+    });
   }
 
   handleGeocoderViewportChange = viewport => {
     const geocoderDefaultOverrides = { transitionDuration: 1000 };
-
     return this.handleViewportChange({
       ...viewport,
       ...geocoderDefaultOverrides
@@ -216,6 +223,7 @@ class MapHome extends Component {
               style={geolocateStyle}
               positionOptions={{ enableHighAccuracy: true }}
               trackUserLocation={true}
+              onViewportChange={this.handleViewportChangeGeo}
             />
             <Geocoder
               mapRef={this.mapRef}
