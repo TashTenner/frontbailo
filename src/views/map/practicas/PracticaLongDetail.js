@@ -84,8 +84,8 @@ class PracticaLongDetail extends Component {
             <PracticaCard practica={practica} />
           </div>
         )}
-        {user && (user.roles === "admin") ? <InputButton2 to={`/admin/practicas/${practica._id}/edit`}>Edit practica</InputButton2> : <div></div>}
-        {user && (user.roles === "admin") ? <InputButton onClick={() => this.deletePractica()}>Delete practica</InputButton> : <div></div>}
+        {user && (user.roles === "admin") ? <InputButton2 to={`/admin/practicas/${practica._id}/edit`}>Edit</InputButton2> : <div></div>}
+        {user && (user.roles === "admin") ? <InputButton onClick={() => this.deletePractica()}>Delete</InputButton> : <div></div>}
       </>
     );
   }
