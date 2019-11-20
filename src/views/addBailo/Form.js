@@ -7,15 +7,21 @@ export const FormGroup = styled.div`
 `;
 
 export const Input = styled.input`
-	padding: 0.5em;
+
+  background: rgba(241, 241, 241, .7);
+  /* border: 0; */
+  /* color: #3E3E3E; */
+
+  padding: 0.5em;
 	color: black;
-	background: #54aa7c;
-	border: none;
-	border-radius: 3px;
+	/* background: white; */
+  border: grey;
+  border-style: solid;
+	border-radius: 10px;
 	width: 100%;
   margin-bottom: 0.5em;
   &::placeholder {
-    color: white;
+    color: grey;
   }
 `;
 
